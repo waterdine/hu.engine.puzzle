@@ -9,11 +9,13 @@ import Foundation
 
 import SpriteKit
 import GameplayKit
+import Flat47Game
 
 enum EncAnimStage {
 	case LiftingUp, FadingOut, Magic, FadingIn, DropingDown, Stamping, Hiding
 }
 
+@available(iOS 11.0, *)
 class PuzzleLogic: GameScene {
 
 	var flowerNode: SKNode?

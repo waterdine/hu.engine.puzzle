@@ -7,7 +7,9 @@
 
 import SpriteKit
 import GameplayKit
+import Flat47Game
 
+@available(iOS 11.0, *)
 class PipePuzzleLogic: PuzzleLogic {
 	
 	var puzzleGridNode: SKNode?

@@ -7,6 +7,7 @@
 
 import SpriteKit
 import GameplayKit
+import Flat47Game
 
 enum JankenChoice {
 	case Rock, Paper, Scissors
@@ -16,6 +17,7 @@ enum RoundAnimationState {
 	case Show, Text, Health, Finished
 }
 
+@available(iOS 11.0, *)
 class JankenLogic: PuzzleLogic {
 	
 	var choicePopup: SKNode?
