@@ -6,7 +6,6 @@
 //
 
 import SpriteKit
-import GameplayKit
 import Flat47Game
 
 enum JankenChoice {
