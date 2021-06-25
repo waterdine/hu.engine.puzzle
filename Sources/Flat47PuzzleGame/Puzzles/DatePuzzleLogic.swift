@@ -9,12 +9,25 @@ import SpriteKit
 import Flat47Game
 
 @available(iOS 11.0, *)
-class DatePuzzleLogic: PuzzleLogic {
+class DatePuzzleLogic: GameScene {
 
 	var puzzleGridNode: SKNode?
+	var flowerNode: SKNode?
 	var selectedGridNode: SKNode?
+	var selectedPetalNode: SKLabelNode?
 	var puzzleGrid: [Int] = [0,0,0,0]
 	var lockedNodes: [Bool] = [false,false,false,false]
+	
+	// Petal shapes/data
+	var petalNodes: [SKLabelNode?] = [nil,nil,nil,nil,nil,nil,nil,nil,nil]
+	var centerSize: Float = 0.0
+	var petalLength: Float = 0.0
+	var petalAngles: [Float] = [0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0]
+	var flowerScaleTime: Float = 0.2
+	var flowerRotateTime: Float = 0.3
+	
+	var textShowing: Bool = false
+	var currentTextIndex: Int = 0
 	
 	class func newScene(gameLogic: GameLogic) -> DatePuzzleLogic {
 		guard let scene = DatePuzzleLogic(fileNamed: "DatePuzzle" + gameLogic.getAspectSuffix()) else {
@@ -24,12 +37,22 @@ class DatePuzzleLogic: PuzzleLogic {
 
 		scene.scaleMode = .aspectFill
 		scene.gameLogic = gameLogic
+		let BGTextCover = scene.childNode(withName: "//BGTextCover")
+		scene.removeChildren(in: [BGTextCover!])
+		
+		let cropNodeDescription: SKCropNode = SKCropNode()
+		cropNodeDescription.maskNode = scene.childNode(withName: "//BGMaskTextCover")
+		cropNodeDescription.addChild(BGTextCover!)
+		let popupNodeDescription = scene.childNode(withName: "//Popup")
+		popupNodeDescription?.addChild(cropNodeDescription)
 		
 		return scene
 	}
 	
 	override func didMove(to view: SKView) {
 		super.didMove(to: view)
+		flowerNode = self.childNode(withName: "//SelectionFlower")
+		flowerNode?.isHidden = true
 		puzzleGridNode = self.childNode(withName: "//PuzzleGrid")
 		
 		for index in 0 ... 3 {
@@ -49,33 +72,88 @@ class DatePuzzleLogic: PuzzleLogic {
 				lockedNodes[gridIndex] = false
 			}
 		}
+		
+		centerSize = flowerNode?.userData?.value(forKey: "centerSize") as! Float
+		petalLength = flowerNode?.userData?.value(forKey: "petalLength") as! Float
+		
+		let flowerImage = flowerNode?.childNode(withName: "//Flower") as? SKSpriteNode
+		for index in 0 ... 8 {
+			petalNodes[index] = flowerImage!.children[index] as? SKLabelNode
+			petalAngles[index] = flowerNode?.userData?.value(forKey: petalNameToAngleString(name: (petalNodes[index]?.name)!)) as! Float
+		}
+		
+		let centralFlowerLabel = self.childNode(withName: "//CentralFlowerLabel") as! SKLabelNode
+		centralFlowerLabel.text = ""
+		selectedPetalNode = nil
+		
+		let questionLabel = self.childNode(withName: "//QuestionLabel") as? SKLabelNode
+		questionLabel!.text = Bundle.main.localizedString(forKey: (self.data?["Question"] as! String), value: nil, table: "Story")
+		
+		let textLabel = self.childNode(withName: "//TextLabel") as? SKLabelNode
+		textLabel!.text = ""
+		currentTextIndex = -1
+		if (hasMoreText()) {
+			nextText()
+			textShowing = true
+		}
 	}
 	
-	override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+	override func interactionBegan(_ point: CGPoint, timestamp: TimeInterval) {
 		if (textShowing) {
 			return
 		}
 		
-		let point: CGPoint = (touches.first?.location(in: self))!
 		for grid: SKNode in puzzleGridNode!.children {
 			let gridIndex = gridNameToIndex(text: grid.name!)
-			if (lockedNodes[gridIndex] == false && grid.frame.contains(point)) {
+			var gridSize: CGSize = grid.frame.size
+			gridSize.width = gridSize.width * grid.parent!.xScale
+			gridSize.height = gridSize.height * grid.parent!.yScale
+			var gridOrigin: CGPoint = grid.convert(CGPoint(x: 0.0, y: 0.0), to: self)
+			gridOrigin.x -= gridSize.width / 2.0
+			gridOrigin.y -= gridSize.height / 2.0
+			let gridFrame = CGRect(origin: gridOrigin, size: gridSize)
+			if (lockedNodes[gridIndex] == false && gridFrame.contains(point)) {
 				flowerNode?.position = point
 				flowerNode?.isHidden = false
+				flowerNode?.setScale(0.0)
+				flowerNode?.run(SKAction.scale(to: 5.0, duration: TimeInterval(flowerScaleTime)))
+				flowerNode?.run(SKAction.rotate(toAngle: CGFloat((360.0 / 180.0) * Double.pi), duration: TimeInterval(flowerRotateTime)))
 				selectedGridNode = grid
 			}
 		}
 	}
 	
-	override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+	func flattenAngle(value: Float) -> Float
+	{
+		// Assumes only over by one amount
+		if (value >= 360.0 && value < 360.0 * 2) {
+			return value - 360.0
+		}
+		
+		// Assumes only under by one amount
+		if (value < 0 && value >= -360.0) {
+			return value + 360.0
+		}
+		
+		return value
+	}
+	
+	func calculateRotation(startingPoint: CGPoint, currentPoint:CGPoint) -> CGFloat {
+		let dY: CGFloat = currentPoint.y - startingPoint.y
+		let dX: CGFloat = currentPoint.x - startingPoint.x
+		let angleFromStart: CGFloat = atan2(dY, dX) * CGFloat((180.0 / Double.pi))
+		return angleFromStart
+	}
+	
+	override func interactionMoved(_ point: CGPoint, timestamp: TimeInterval) {
 		if (selectedPetalNode != nil) {
-			//selectedPetalNode!.fillColor = UIColor.systemYellow
+			selectedPetalNode!.fontColor = UIColor.white
 			let centralFlowerLabel = self.childNode(withName: "//CentralFlowerLabel") as! SKLabelNode
-			   centralFlowerLabel.text = ""
+			centralFlowerLabel.text = ""
+			selectedPetalNode = nil
 		}
 		
 		if (selectedGridNode != nil) {
-			let point: CGPoint = (touches.first?.location(in: self))!
 			let xDistance: Float = Float(point.x - (flowerNode?.position.x)!)
 			let yDistance: Float = Float(point.y - (flowerNode?.position.y)!)
 			let distance: Float = sqrtf(xDistance * xDistance + yDistance * yDistance)
@@ -95,9 +173,9 @@ class DatePuzzleLogic: PuzzleLogic {
 					if (angleDiff1 <= 20 || angleDiff2 <= 20)
 					{
 						selectedPetalNode = petalNodes[index]
-						//selectedPetalNode!.fillColor = UIColor.systemRed
 						let centralFlowerLabel = self.childNode(withName: "//CentralFlowerLabel") as! SKLabelNode
 						centralFlowerLabel.text = petalValuetoText(value: petalNameToValue(text: (selectedPetalNode?.name)!))
+						selectedPetalNode!.fontColor = centralFlowerLabel.fontColor
 						break
 					}
 				}
@@ -105,17 +183,23 @@ class DatePuzzleLogic: PuzzleLogic {
 		}
 	}
 	
-	override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+	override func interactionEnded(_ point: CGPoint, timestamp: TimeInterval) {
 		let answerNode = self.childNode(withName: "//SayAnswer")
-		let point: CGPoint = (touches.first?.location(in: self))!
-		if (answerNode!.frame.contains(point)) {
+		if (textShowing) {
+			if (hasMoreText()) {
+				nextText()
+			} else {
+				textShowing = false
+				currentTextIndex = -1
+			}
+		} else if (answerNode!.frame.contains(point)) {
 			checkPuzleCompleted()
-		}
-		
-		if (!textShowing && !puzzleComplete) {
-			flowerNode?.isHidden = true
+		} else {
+			//flowerNode?.isHidden = true
+			flowerNode?.run(SKAction.scale(to: 0.0, duration: TimeInterval(flowerScaleTime)))
+			flowerNode?.run(SKAction.rotate(toAngle: 0, duration: TimeInterval(flowerRotateTime)))
 			if (selectedPetalNode != nil) {
-				//selectedPetalNode!.fillColor = UIColor.systemYellow
+				selectedPetalNode!.fontColor = UIColor.white
 				let centralFlowerLabel = self.childNode(withName: "//CentralFlowerLabel") as! SKLabelNode
 				centralFlowerLabel.text = ""
 				if (selectedGridNode != nil) {
@@ -128,10 +212,96 @@ class DatePuzzleLogic: PuzzleLogic {
 				}
 			}
 		}
+		selectedPetalNode = nil
 		selectedGridNode = nil
 	}
 	
 	override func update(_ currentTime: TimeInterval) {
+		let popupNode = self.childNode(withName: "//Popup")!
+		if (textShowing) {
+			popupNode.isHidden = false
+		} else {
+			popupNode.isHidden = true
+		}
+		// Timeout puzzle here
+	}
+	
+	func petalNameToAngleString(name: String) -> String
+	{
+		switch name {
+		case "Petal_1":
+			return "petalAngle_1"
+		case "Petal_2":
+			return "petalAngle_2"
+		case "Petal_3":
+			return "petalAngle_3"
+		case "Petal_4":
+			return "petalAngle_4"
+		case "Petal_5":
+			return "petalAngle_5"
+		case "Petal_6":
+			return "petalAngle_6"
+		case "Petal_7":
+			return "petalAngle_7"
+		case "Petal_8":
+			return "petalAngle_8"
+		case "Petal_9":
+			return "petalAngle_9"
+		default:
+			return ""
+		}
+	}
+	
+	func petalValuetoText(value: Int) -> String
+	{
+		switch value {
+		case 1:
+			return "1"
+		case 2:
+			return "2"
+		case 3:
+			return "3"
+		case 4:
+			return "4"
+		case 5:
+			return "5"
+		case 6:
+			return "6"
+		case 7:
+			return "7"
+		case 8:
+			return "8"
+		case 9:
+			return "9"
+		default:
+			return "0"
+		}
+	}
+	
+	func petalNameToValue(text: String) -> Int
+	{
+		switch text {
+		case "Petal_1":
+			return 1
+		case "Petal_2":
+			return 2
+		case "Petal_3":
+			return 3
+		case "Petal_4":
+			return 4
+		case "Petal_5":
+			return 5
+		case "Petal_6":
+			return 6
+		case "Petal_7":
+			return 7
+		case "Petal_8":
+			return 8
+		case "Petal_9":
+			return 9
+		default:
+			return 0
+		}
 	}
 	
 	func gridStringToValue(text: String) -> Int
@@ -186,5 +356,28 @@ class DatePuzzleLogic: PuzzleLogic {
 		} else {
 			self.gameLogic?.nextScene()
 		}
+	}
+	
+	func hasMoreText() -> Bool {
+		var textList: NSArray?
+		textList = self.data?["Text"] as? NSArray
+		return textList!.count > self.currentTextIndex + 1
+	}
+	
+	func nextText() {
+		currentTextIndex += 1
+		
+		let textLabel = self.childNode(withName: "//TextLabel") as? SKLabelNode
+		
+		(textLabel!).alpha = 0.0
+		(textLabel!).run(SKAction.fadeIn(withDuration: 1.0))
+		
+		var textList: NSArray?
+		textList = self.data?["Text"] as? NSArray
+		
+		if (textList != nil && textList!.count > self.currentTextIndex) {
+			textLabel?.text = Bundle.main.localizedString(forKey: (textList?[self.currentTextIndex] as! String), value: nil, table: "Story")
+		}
+		// fade text in
 	}
 }
