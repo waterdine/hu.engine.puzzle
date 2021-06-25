@@ -13,9 +13,9 @@ import Flat47Game
 public func RegisterPuzzleGameScenes(gameLogic: GameLogic) {
 	//RegisterGameLogicScenes()
 	gameLogic.sceneTypes["DatePuzzle"] = DatePuzzleLogic.newScene(gameLogic: gameLogic)
-	gameLogic.sceneTypes["Janken"] = JankenLogic.newScene(gameLogic: gameLogic)
-	gameLogic.sceneTypes["PipePuzzle"] = PipePuzzleLogic.newScene(gameLogic: gameLogic)
-	gameLogic.sceneTypes["SearchPuzzle"] = SearchPuzzleLogic.newScene(gameLogic: gameLogic)
-	gameLogic.sceneTypes["TV"] = TVLogic.newScene(gameLogic: gameLogic)
+	//gameLogic.sceneTypes["Janken"] = JankenLogic.newScene(gameLogic: gameLogic)
+	//gameLogic.sceneTypes["PipePuzzle"] = PipePuzzleLogic.newScene(gameLogic: gameLogic)
+	//gameLogic.sceneTypes["SearchPuzzle"] = SearchPuzzleLogic.newScene(gameLogic: gameLogic)
+	//gameLogic.sceneTypes["TV"] = TVLogic.newScene(gameLogic: gameLogic)
 	gameLogic.sceneTypes["ZenPuzzle"] = ZenPuzzleLogic.newScene(gameLogic: gameLogic)
 }
