@@ -16,6 +16,7 @@ enum RoundAnimationState {
 	case Show, Text, Health, Finished
 }
 
+@available(OSX 10.12, *)
 @available(iOS 11.0, *)
 class JankenLogic: PuzzleLogic {
 	
