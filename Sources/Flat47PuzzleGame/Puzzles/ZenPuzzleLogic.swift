@@ -910,7 +910,7 @@ class ZenPuzzleLogic: GameScene {
 					if (genTextLabel?.text != "" && !(genTextLabel?.text?.hasSuffix("\n"))!) {
 						genTextLabel?.text! += "\n"
 					}
-					genTextLabel?.text! += Bundle.main.localizedString(forKey: string, value: nil, table: "Story")
+					genTextLabel?.text! += Bundle.main.localizedString(forKey: string, value: nil, table:  self.gameLogic!.getChapterTable())
 					if (genTextLabel!.text!.hasSuffix(" (seal).")) {
 						genTextLabel!.text! = (genTextLabel?.text!.replacingOccurrences(of: " (seal).", with: "."))!
 					} else if (genTextLabel!.text!.hasSuffix(" (sseal).")) {
@@ -928,7 +928,7 @@ class ZenPuzzleLogic: GameScene {
 			let pos = CGPoint(x: stickyTextLabel!.frame.minX, y: BGMask!.frame.maxY - differenceInX)
 			stickyTextLabel!.position = pos
 			if (textList != nil && textList!.count > self.currentTextIndex) {
-				newText += Bundle.main.localizedString(forKey: (textList?[self.currentTextIndex] as! String), value: nil, table: "Story")
+				newText += Bundle.main.localizedString(forKey: (textList?[self.currentTextIndex] as! String), value: nil, table:  self.gameLogic!.getChapterTable())
 				if (newText.hasSuffix(" (seal).")) {
 					newText = newText.replacingOccurrences(of: " (seal).", with: ".")
 					fadeSeal = true
@@ -939,7 +939,7 @@ class ZenPuzzleLogic: GameScene {
 			lastTextChange = 0.0
 		} else {
 			if (textList != nil && textList!.count > self.currentTextIndex) {
-				textLabel?.text! = Bundle.main.localizedString(forKey: (textList?[self.currentTextIndex] as! String), value: nil, table: "Story")
+				textLabel?.text! = Bundle.main.localizedString(forKey: (textList?[self.currentTextIndex] as! String), value: nil, table:  self.gameLogic!.getChapterTable())
 				(textLabel!).alpha = 0.0
 				(textLabel!).run(SKAction.fadeIn(withDuration: 1.0))
 			}

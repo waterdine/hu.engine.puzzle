@@ -88,7 +88,7 @@ class DatePuzzleLogic: GameScene {
 		selectedPetalNode = nil
 		
 		let questionLabel = self.childNode(withName: "//QuestionLabel") as? SKLabelNode
-		questionLabel!.text = Bundle.main.localizedString(forKey: (self.data?["Question"] as! String), value: nil, table: "Story")
+		questionLabel!.text = Bundle.main.localizedString(forKey: (self.data?["Question"] as! String), value: nil, table:  self.gameLogic!.getChapterTable())
 		
 		let textLabel = self.childNode(withName: "//TextLabel") as? SKLabelNode
 		textLabel!.text = ""
@@ -349,7 +349,7 @@ class DatePuzzleLogic: GameScene {
 	
 	func checkPuzleCompleted() {
 		let selectedDate: String = String.init(format: "%d%d%d%d", puzzleGrid[0], puzzleGrid[1], puzzleGrid[2], puzzleGrid[3])
-		let expectedDate: String = Bundle.main.localizedString(forKey: (self.data?["Answer"] as! String), value: nil, table: "Story")
+		let expectedDate: String = Bundle.main.localizedString(forKey: (self.data?["Answer"] as! String), value: nil, table:  self.gameLogic!.getChapterTable())
 		if (selectedDate == expectedDate)
 		{
 			let skipToScene = self.data?["SkipTo"] as! Int
@@ -377,7 +377,7 @@ class DatePuzzleLogic: GameScene {
 		textList = self.data?["Text"] as? NSArray
 		
 		if (textList != nil && textList!.count > self.currentTextIndex) {
-			textLabel?.text = Bundle.main.localizedString(forKey: (textList?[self.currentTextIndex] as! String), value: nil, table: "Story")
+			textLabel?.text = Bundle.main.localizedString(forKey: (textList?[self.currentTextIndex] as! String), value: nil, table:  self.gameLogic!.getChapterTable())
 		}
 		// fade text in
 	}
