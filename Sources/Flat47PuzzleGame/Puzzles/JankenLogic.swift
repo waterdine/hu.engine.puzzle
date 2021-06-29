@@ -16,7 +16,7 @@ enum RoundAnimationState {
 	case Show, Text, Health, Finished
 }
 
-@available(OSX 10.12, *)
+@available(OSX 10.13, *)
 @available(iOS 11.0, *)
 class JankenLogic: PuzzleLogic {
 	
@@ -73,18 +73,16 @@ class JankenLogic: PuzzleLogic {
 		playerTwoSelection?.isHidden = true
 	}
 	
-	override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-		super.touchesBegan(touches, with: event)
+	override func interactionBegan(_ point: CGPoint, timestamp: TimeInterval) {
+		super.interactionBegan(point, timestamp: timestamp)
 	}
-	
-	override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-		super.touchesMoved(touches, with: event)
+		
+	override func interactionMoved(_ point: CGPoint, timestamp: TimeInterval) {
+		super.interactionMoved(point, timestamp: timestamp)
 	}
-	
-	override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-		super.touchesEnded(touches, with: event)
-
-		let point: CGPoint = (touches.first?.location(in: self))!
+		
+	override func interactionEnded(_ point: CGPoint, timestamp: TimeInterval) {
+		super.interactionEnded(point, timestamp: timestamp)
 		if (waitingForChoice) {
 			if (rockNode!.frame.contains(point)) {
 				makeChoice(playerOneChoice: .Rock)

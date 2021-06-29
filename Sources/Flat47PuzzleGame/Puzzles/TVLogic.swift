@@ -8,7 +8,7 @@
 import SpriteKit
 import Flat47Game
 
-@available(OSX 10.12, *)
+@available(OSX 10.13, *)
 @available(iOS 11.0, *)
 class TVLogic: PuzzleLogic {
 	
@@ -44,35 +44,34 @@ class TVLogic: PuzzleLogic {
 		updateChannel(currentTime: 0.0)
 	}
 	
-	override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+	override func interactionBegan(_ point: CGPoint, timestamp: TimeInterval) {
 		//super.touchesBegan(touches, with: event)
 	}
-	
-	override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+		
+	override func interactionMoved(_ point: CGPoint, timestamp: TimeInterval) {
 		//super.touchesMoved(touches, with: event)
 	}
-	
-	override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+
+	override func interactionEnded(_ point: CGPoint, timestamp: TimeInterval) {
 		//super.touchesEnded(touches, with: event)
 
-		let point: CGPoint = (touches.first?.location(in: self))!
 		if (channelUpButton!.frame.contains(point)) {
 			channelIndex += 1
 			if (channelIndex > 99) {
 				channelIndex = 99
 			}
-			updateChannel(currentTime: event!.timestamp)
+			updateChannel(currentTime: timestamp)
 		} else if (channelDownButton!.frame.contains(point)) {
 			channelIndex -= 1
 			if (channelIndex < 1) {
 				channelIndex = 1
 			}
-			updateChannel(currentTime: event!.timestamp)
+			updateChannel(currentTime: timestamp)
 		} else if (offButton!.frame.contains(point)) {
 			self.gameLogic?.nextScene()
 		} else if (hasMoreText()) {
-			if (readyForMoreText(currentTime: event!.timestamp, delay: self.gameLogic!.actionDelay)) {
-				nextText(currentTime: event!.timestamp)
+			if (readyForMoreText(currentTime: timestamp, delay: self.gameLogic!.actionDelay)) {
+				nextText(currentTime: timestamp)
 			}
 		}
 	}

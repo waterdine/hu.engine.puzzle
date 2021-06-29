@@ -14,7 +14,7 @@ enum EncAnimStage {
 	case LiftingUp, FadingOut, Magic, FadingIn, DropingDown, Stamping, Hiding
 }
 
-@available(OSX 10.12, *)
+@available(OSX 10.13, *)
 @available(iOS 11.0, *)
 class PuzzleLogic: GameScene {
 
@@ -96,7 +96,7 @@ class PuzzleLogic: GameScene {
 		}
 	}
 	
-	override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+	override func interactionBegan(_ point: CGPoint, timestamp: TimeInterval) {
 		if (puzzleComplete || textShowing) {
 			if (stickyText) {
 				if (animatingText) {
@@ -107,7 +107,7 @@ class PuzzleLogic: GameScene {
 		}
 	}
 
-	override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+	override func interactionMoved(_ point: CGPoint, timestamp: TimeInterval) {
 		if (puzzleComplete) {
 			return
 		}
@@ -120,31 +120,31 @@ class PuzzleLogic: GameScene {
 		}
 	}
 	
-	override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+	override func interactionEnded(_ point: CGPoint, timestamp: TimeInterval) {
 		if (textShowing) {
 			if (stickyText && speedingText) {
 				speedingText = false
 			} else if (hasMoreText()) {
-				if (readyForMoreText(currentTime: event!.timestamp, delay: self.gameLogic!.actionDelay)) {
-					nextText(currentTime: event!.timestamp)
+				if (readyForMoreText(currentTime: timestamp, delay: self.gameLogic!.actionDelay)) {
+					nextText(currentTime: timestamp)
 				}
 			} else {
-				if (readyForMoreText(currentTime: event!.timestamp, delay: self.gameLogic!.actionDelay)) {
+				if (readyForMoreText(currentTime: timestamp, delay: self.gameLogic!.actionDelay)) {
 					textShowing = false
 					currentTextIndex = -1
 					if (puzzleComplete) {
-						super.touchesEnded(touches, with: event)
+						super.interactionEnded(point, timestamp: timestamp)
 					} else if (self.gameLogic!.skipPuzzles) {
 						puzzleComplete = true
 						if (hasMoreText()) {
-							nextText(currentTime: event!.timestamp)
+							nextText(currentTime: timestamp)
 							textShowing = true
 						}
 					}
 				}
 			}
 		} else if (puzzleComplete) {
-			super.touchesEnded(touches, with: event)
+			super.interactionEnded(point, timestamp: timestamp)
 		} else {
 			//flowerNode?.isHidden = true
 			flowerNode?.run(SKAction.scale(to: 0.0, duration: TimeInterval(flowerScaleTime)))

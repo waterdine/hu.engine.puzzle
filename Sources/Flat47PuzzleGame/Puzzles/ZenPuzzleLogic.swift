@@ -12,7 +12,12 @@ import Flat47Game
 	case LiftingUp, FadingOut, Magic, FadingIn, DropingDown, Stamping, Hiding
 }*/
 
-@available(OSX 10.12, *)
+#if os(OSX)
+typealias UIColor = NSColor
+typealias UIFont = NSFont
+#endif
+
+@available(OSX 10.13, *)
 @available(iOS 11.0, *)
 class ZenPuzzleLogic: GameScene {
 

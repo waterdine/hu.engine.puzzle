@@ -8,7 +8,7 @@
 import SpriteKit
 import Flat47Game
 
-@available(OSX 10.12, *)
+@available(OSX 10.13, *)
 @available(iOS 11.0, *)
 class PipePuzzleLogic: PuzzleLogic {
 	
@@ -106,15 +106,14 @@ class PipePuzzleLogic: PuzzleLogic {
 		endGridNode?.texture = straightTexture
 	}
 	
-	override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-		super.touchesBegan(touches, with: event)
+	override func interactionBegan(_ point: CGPoint, timestamp: TimeInterval) {
+		super.interactionBegan(point, timestamp: timestamp)
 		
 		if (textShowing) {
 			return
 		}
 		
 		if (animatingGridNode == nil) {
-			let point: CGPoint = (touches.first?.location(in: self))!
 			for grid: SKNode in puzzleGridNode!.children {
 				if (grid != emptyGridNode && grid != startGridNode && grid != endGridNode && grid.frame.contains(point) && isNextTo(a: grid, b: emptyGridNode!)) {
 					selectedGridNode = grid
@@ -123,12 +122,12 @@ class PipePuzzleLogic: PuzzleLogic {
 		}
 	}
 	
-	override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-		super.touchesMoved(touches, with: event)
+	override func interactionMoved(_ point: CGPoint, timestamp: TimeInterval) {
+		super.interactionMoved(point, timestamp: timestamp)
 	}
 	
-	override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-		super.touchesEnded(touches, with: event)
+	override func interactionEnded(_ point: CGPoint, timestamp: TimeInterval) {
+		super.interactionEnded(point, timestamp: timestamp)
 		if (selectedGridNode != nil) {
 			let lastPos = selectedGridNode!.position
 			let lastName = selectedGridNode!.name
@@ -138,7 +137,7 @@ class PipePuzzleLogic: PuzzleLogic {
 			animatingGridNode!.name = emptyGridNode!.name
 			emptyGridNode!.position = lastPos
 			emptyGridNode!.name = lastName
-			checkPuzleCompleted(currentTime: event!.timestamp)
+			checkPuzleCompleted(currentTime: timestamp)
 		}
 	}
 	

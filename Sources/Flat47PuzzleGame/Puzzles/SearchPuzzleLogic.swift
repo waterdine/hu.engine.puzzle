@@ -8,7 +8,7 @@
 import SpriteKit
 import Flat47Game
 
-@available(OSX 10.12, *)
+@available(OSX 10.13, *)
 @available(iOS 11.0, *)
 class SearchPuzzleLogic: PuzzleLogic {
 	
@@ -43,16 +43,15 @@ class SearchPuzzleLogic: PuzzleLogic {
 		}
 	}
 	
-	override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-		super.touchesBegan(touches, with: event)
+	override func interactionBegan(_ point: CGPoint, timestamp: TimeInterval) {
+		super.interactionBegan(point, timestamp: timestamp)
 		handledPress = false
 	}
 	
-	override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-		super.touchesMoved(touches, with: event)
+	override func interactionMoved(_ point: CGPoint, timestamp: TimeInterval) {
+		super.interactionMoved(point, timestamp: timestamp)
 		let puzzleImage = self.childNode(withName: "//PuzzleImage") as! SKSpriteNode
-		let point: CGPoint = (touches.first?.location(in: self))!
-		let lastPoint: CGPoint = (touches.first?.previousLocation(in: self))!
+		let lastPoint: CGPoint = point//(touches.first?.previousLocation(in: self))!
 		if (distance(startingPoint: lastPoint, endingPoint: point) > 1.0) {
 			puzzleImage.position.x -= lastPoint.x - point.x
 			let minX = -(puzzleImage.size.width / 2.0) + (self.size.width / 2.0)
@@ -74,11 +73,10 @@ class SearchPuzzleLogic: PuzzleLogic {
 		}
 	}
 	
-	override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-		super.touchesEnded(touches, with: event)
+	override func interactionEnded(_ point: CGPoint, timestamp: TimeInterval) {
+		super.interactionEnded(point, timestamp: timestamp)
 		if (!handledPress) {
 			let puzzleImage = self.childNode(withName: "//PuzzleImage") as! SKSpriteNode
-			let point: CGPoint = (touches.first?.location(in: self))!
 			if (puzzleImage.frame.contains(point)) {
 				let offsetPoint: CGPoint = CGPoint(x: point.x - puzzleImage.position.x, y: point.y - puzzleImage.position.y)
 				
@@ -89,7 +87,7 @@ class SearchPuzzleLogic: PuzzleLogic {
 					if (distance(startingPoint: offsetPoint, endingPoint: center) <= CGFloat(radius)) {
 						puzzleComplete = true
 						if (hasMoreText()) {
-							nextText(currentTime: event!.timestamp)
+							nextText(currentTime: timestamp)
 							textShowing = true
 						}
 					}

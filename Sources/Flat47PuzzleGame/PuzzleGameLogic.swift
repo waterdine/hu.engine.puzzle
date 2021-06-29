@@ -9,7 +9,7 @@ import Foundation
 import Flat47Game
 
 // This is a free function because OOP sucks monkey ass and I am not perpetuating that BS any longer ^_^/
-@available(OSX 10.12, *)
+@available(OSX 10.13, *)
 @available(iOS 11.0, *)
 public func RegisterPuzzleGameScenes(gameLogic: GameLogic) {
 	//RegisterGameLogicScenes()
