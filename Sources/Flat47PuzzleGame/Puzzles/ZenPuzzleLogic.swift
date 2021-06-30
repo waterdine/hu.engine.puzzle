@@ -64,6 +64,7 @@ class ZenPuzzleLogic: GameScene {
 
 		scene.scaleMode = .aspectFill
 		scene.gameLogic = gameLogic
+		scene.requiresMusic = true
 		scene.puzzleComplete = false
 		let BG = scene.childNode(withName: "//BG")
 		scene.removeChildren(in: [BG!])

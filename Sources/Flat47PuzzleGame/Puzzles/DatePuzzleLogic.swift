@@ -38,6 +38,7 @@ class DatePuzzleLogic: GameScene {
 
 		scene.scaleMode = .aspectFill
 		scene.gameLogic = gameLogic
+		scene.requiresMusic = true
 		let BGTextCover = scene.childNode(withName: "//BGTextCover")
 		scene.removeChildren(in: [BGTextCover!])
 		
