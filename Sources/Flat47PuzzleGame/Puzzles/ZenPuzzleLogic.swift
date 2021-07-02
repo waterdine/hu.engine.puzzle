@@ -311,6 +311,7 @@ class ZenPuzzleLogic: GameScene {
 	
 	override func interactionEnded(_ point: CGPoint, timestamp: TimeInterval) {
 		if (handleToolbar(point)) {
+			gameMenu?.isHidden = false
 			return
 		}
 		
