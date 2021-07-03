@@ -164,7 +164,7 @@ class ZenPuzzleLogic: GameScene {
 		
 		centerSize = flowerNode?.userData?.value(forKey: "centerSize") as! Float
 		petalLength = flowerNode?.userData?.value(forKey: "petalLength") as! Float
-		if (flowerNode?.userData?.value(forKey: "scale")) {
+		if (flowerNode?.userData?.value(forKey: "scale") != nil) {
 			flowerScale = flowerNode?.userData?.value(forKey: "scale") as! Float
 		}
 		
@@ -242,7 +242,7 @@ class ZenPuzzleLogic: GameScene {
 				flowerNode?.position = point
 				flowerNode?.isHidden = false
 				flowerNode?.setScale(0.0)
-				flowerNode?.run(SKAction.scale(to: flowerScale, duration: TimeInterval(flowerScaleTime)))
+				flowerNode?.run(SKAction.scale(to: CGFloat(flowerScale), duration: TimeInterval(flowerScaleTime)))
 				flowerNode?.run(SKAction.rotate(toAngle: CGFloat((360.0 / 180.0) * Double.pi), duration: TimeInterval(flowerRotateTime)))
 				selectedGridNode = grid
 			}
