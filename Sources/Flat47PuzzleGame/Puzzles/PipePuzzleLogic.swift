@@ -27,7 +27,7 @@ class PipePuzzleLogic: PuzzleLogic {
 			abort()
 		}
 
-		scene.scaleMode = .aspectFill
+		scene.scaleMode = gameLogic.getScaleMode()
 		scene.gameLogic = gameLogic
 		scene.puzzleComplete = false
 		let BG = scene.childNode(withName: "//BG")

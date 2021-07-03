@@ -42,7 +42,7 @@ class JankenLogic: PuzzleLogic {
 			abort()
 		}
 
-		scene.scaleMode = .aspectFill
+		scene.scaleMode = gameLogic.getScaleMode()
 		scene.gameLogic = gameLogic
 		scene.puzzleComplete = false
 		return scene

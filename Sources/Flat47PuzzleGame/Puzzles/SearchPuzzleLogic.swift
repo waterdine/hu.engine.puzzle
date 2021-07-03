@@ -22,7 +22,7 @@ class SearchPuzzleLogic: PuzzleLogic {
 			abort()
 		}
 
-		scene.scaleMode = .aspectFill
+		scene.scaleMode = gameLogic.getScaleMode()
 		scene.gameLogic = gameLogic
 		scene.puzzleComplete = false
 		
