@@ -36,6 +36,7 @@ class ZenPuzzleLogic: GameScene {
 	var petalAngles: [Float] = [0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0]
 	var flowerScaleTime: Float = 0.2
 	var flowerRotateTime: Float = 0.3
+	var flowerScale: Float = 5.0
 	
 	var textShowing: Bool = false
 	var currentTextIndex: Int = 0
@@ -147,7 +148,7 @@ class ZenPuzzleLogic: GameScene {
 				continue
 			}
 			let gridIndex = gridNameToIndex(text: grid.name!)
-			let gridLabel = self.childNode(withName: gridIndexToLabel(index: gridIndex)) as! SKLabelNode;
+			let gridLabel = self.childNode(withName: gridIndexToLabel(index: gridIndex)) as! SKLabelNode
 			// TODO image
 			if (puzzleGrid[gridIndex] != 0)
 			{
@@ -163,6 +164,9 @@ class ZenPuzzleLogic: GameScene {
 		
 		centerSize = flowerNode?.userData?.value(forKey: "centerSize") as! Float
 		petalLength = flowerNode?.userData?.value(forKey: "petalLength") as! Float
+		if (flowerNode?.userData?.value(forKey: "scale")) {
+			flowerScale = flowerNode?.userData?.value(forKey: "scale") as! Float
+		}
 		
 		let flowerImage = flowerNode?.childNode(withName: "//Flower") as? SKSpriteNode
 		for index in 0 ... 8 {
@@ -238,7 +242,7 @@ class ZenPuzzleLogic: GameScene {
 				flowerNode?.position = point
 				flowerNode?.isHidden = false
 				flowerNode?.setScale(0.0)
-				flowerNode?.run(SKAction.scale(to: 5.0, duration: TimeInterval(flowerScaleTime)))
+				flowerNode?.run(SKAction.scale(to: flowerScale, duration: TimeInterval(flowerScaleTime)))
 				flowerNode?.run(SKAction.rotate(toAngle: CGFloat((360.0 / 180.0) * Double.pi), duration: TimeInterval(flowerRotateTime)))
 				selectedGridNode = grid
 			}
