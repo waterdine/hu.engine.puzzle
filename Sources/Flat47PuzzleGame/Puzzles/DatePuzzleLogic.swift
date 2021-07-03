@@ -80,6 +80,7 @@ class DatePuzzleLogic: GameScene {
 		petalLength = flowerNode?.userData?.value(forKey: "petalLength") as! Float
 		if (flowerNode?.userData?.value(forKey: "scale") != nil) {
 			flowerScale = flowerNode?.userData?.value(forKey: "scale") as! Float
+			petalLength *= flowerScale / 5.0
 		}
 		
 		let flowerImage = flowerNode?.childNode(withName: "//Flower") as? SKSpriteNode

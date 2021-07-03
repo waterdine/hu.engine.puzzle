@@ -166,6 +166,7 @@ class ZenPuzzleLogic: GameScene {
 		petalLength = flowerNode?.userData?.value(forKey: "petalLength") as! Float
 		if (flowerNode?.userData?.value(forKey: "scale") != nil) {
 			flowerScale = flowerNode?.userData?.value(forKey: "scale") as! Float
+			petalLength *= flowerScale / 5.0
 		}
 		
 		let flowerImage = flowerNode?.childNode(withName: "//Flower") as? SKSpriteNode
@@ -202,11 +203,11 @@ class ZenPuzzleLogic: GameScene {
 		let pos = backgroundNode?.userData!["OriginalPos"] as! Int
 		let animate = self.data?["Animate"] as? Bool
 		if (pos != 0 && animate != nil && animate! == true) {
-			backgroundNode?.position = CGPoint(x: pos, y: 0)
+			backgroundNode?.position.x = CGFloat(pos)
 			backgroundNode?.run(SKAction.moveTo(x: 0.0, duration: 5.0))
 			animatingBG = true
 		} else {
-			backgroundNode?.position = CGPoint(x: 0, y: 0)
+			backgroundNode?.position.x = 0
 			if (hasMoreText()) {
 				nextText(currentTime: 0.0)
 				textShowing = true
