@@ -23,7 +23,7 @@ class TVLogic: PuzzleLogic {
 	class func newScene(gameLogic: GameLogic) -> TVLogic {
 		guard let scene = TVLogic(fileNamed: "TV" + gameLogic.getAspectSuffix()) else {
 			print("Failed to load TV.sks")
-			abort()
+			return TVLogic()
 		}
 
 		scene.scaleMode = gameLogic.getScaleMode()

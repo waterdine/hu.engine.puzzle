@@ -39,7 +39,7 @@ class JankenLogic: PuzzleLogic {
 	class func newScene(gameLogic: GameLogic) -> JankenLogic {
 		guard let scene = JankenLogic(fileNamed: "Janken" + gameLogic.getAspectSuffix()) else {
 			print("Failed to load Janken.sks")
-			abort()
+			return JankenLogic()
 		}
 
 		scene.scaleMode = gameLogic.getScaleMode()

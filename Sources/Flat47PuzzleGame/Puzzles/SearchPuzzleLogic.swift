@@ -19,7 +19,7 @@ class SearchPuzzleLogic: PuzzleLogic {
 	class func newScene(gameLogic: GameLogic) -> SearchPuzzleLogic {
 		guard let scene = SearchPuzzleLogic(fileNamed: "SearchPuzzle" + gameLogic.getAspectSuffix()) else {
 			print("Failed to load SearchPuzzle.sks")
-			abort()
+			return SearchPuzzleLogic()
 		}
 
 		scene.scaleMode = gameLogic.getScaleMode()

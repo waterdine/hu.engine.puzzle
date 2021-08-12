@@ -24,7 +24,7 @@ class PipePuzzleLogic: PuzzleLogic {
 	class func newScene(gameLogic: GameLogic) -> PipePuzzleLogic {
 		guard let scene = PipePuzzleLogic(fileNamed: "PipePuzzle" + gameLogic.getAspectSuffix()) else {
 			print("Failed to load PipePuzzle.sks")
-			abort()
+			return PipePuzzleLogic()
 		}
 
 		scene.scaleMode = gameLogic.getScaleMode()
