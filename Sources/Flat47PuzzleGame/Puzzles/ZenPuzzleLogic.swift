@@ -179,10 +179,15 @@ class ZenPuzzleLogic: GameScene {
 		centralFlowerLabel.text = ""
 		selectedPetalNode = nil
 		
+        let characterFontName = Bundle.main.localizedString(forKey: "CharacterFontName", value: nil, table: "Story")
+        let fontName = Bundle.main.localizedString(forKey: "FontName", value: nil, table: "Story")
+        
 		let textLabel = self.childNode(withName: "//TextLabel") as? SKLabelNode
 		textLabel!.text = ""
+        textLabel!.fontName = characterFontName
 		let stickyTextLabel = self.childNode(withName: "//StickyTextLabel") as? SKLabelNode
 		stickyTextLabel!.text = ""
+        stickyTextLabel!.fontName = fontName
 		currentTextIndex = -1
 		stickyText = false
 		fixedText = ""
