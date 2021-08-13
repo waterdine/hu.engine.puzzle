@@ -57,7 +57,11 @@ class DatePuzzleLogic: GameScene {
 		flowerNode = self.childNode(withName: "//SelectionFlower")
 		flowerNode?.isHidden = true
 		puzzleGridNode = self.childNode(withName: "//PuzzleGrid")
-		
+        
+        let sayAnswer = Bundle.main.localizedString(forKey: "Check answer.", value: nil, table: "Story")
+        let answerLabel = self.childNode(withName: "//Choice2Label") as? SKLabelNode
+        answerLabel?.text = sayAnswer
+        
 		for index in 0 ... 3 {
 			puzzleGrid[index] = 0
 		}
