@@ -492,6 +492,7 @@ class ZenPuzzleLogic: GameScene {
 				encAnimStage = EncAnimStage.LiftingUp
 				cachedPosition = stickyTextLabel!.position
 			} else if (currentTime >= nextEncAnim) {
+                let encodeFontScale: CGFloat = CGFloat(Float.init(Bundle.main.localizedString(forKey: "EncodeFontScale", value: nil, table: "Story"))!)
 				let delta = currentTime - nextEncAnim
 				let textFadeTime = 1.5
 				let deltaFadeTime = delta / textFadeTime
@@ -532,7 +533,7 @@ class ZenPuzzleLogic: GameScene {
 							output.append(string![characterIndex])
 						}
 					}
-					let font = UIFont.init(name: (stickyTextLabel!.fontName!) as String, size: stickyTextLabel!.fontSize / 1.55)
+					let font = UIFont.init(name: (stickyTextLabel!.fontName!) as String, size: stickyTextLabel!.fontSize / encodeFontScale)
 					attributes![.font] = font
 					stickyTextLabel?.attributedText? = NSAttributedString(string: output, attributes: attributes)
 					stickyTextLabel?.position = CGPoint(x: cachedPosition.x + totalOffset, y: cachedPosition.y + totalOffset)
