@@ -9,7 +9,7 @@ import SpriteKit
 import Flat47Game
 
 @available(OSX 10.13, *)
-@available(iOS 11.0, *)
+@available(iOS 9.0, *)
 class SearchPuzzleLogic: PuzzleLogic {
 	
 	var accumulatedX: CGFloat = 0.0

@@ -15,7 +15,7 @@ enum EncAnimStage {
 }
 
 @available(OSX 10.13, *)
-@available(iOS 11.0, *)
+@available(iOS 9.0, *)
 class PuzzleLogic: GameScene {
 
 	var flowerNode: SKNode?
@@ -78,7 +78,11 @@ class PuzzleLogic: GameScene {
 		stickyText = false
 		fixedText = ""
 		newText = ""
-		stickyTextLabel?.attributedText =  NSAttributedString()
+        if #available(iOS 11.0, *) {
+            stickyTextLabel?.attributedText =  NSAttributedString()
+        } else {
+            // Fallback on earlier versions
+        }
 		lastTextChange = 0.0
 		lastAnimationCompleteTime = 0.0
 		animatingText = false
@@ -217,7 +221,11 @@ class PuzzleLogic: GameScene {
 					}
 				}
 				
-				textLabel?.attributedText = string
+                if #available(iOS 11.0, *) {
+                    textLabel?.attributedText = string
+                } else {
+                    // Fallback on earlier versions
+                }
 				
 				if (remainingCharacters == 0) {
 					lastAnimationCompleteTime = currentTime
@@ -263,9 +271,13 @@ class PuzzleLogic: GameScene {
 						nextEncAnim = nextEncAnim + 1.5
 						encAnimStage = .FadingOut
 					}
-					var attributes = stickyTextLabel?.attributedText?.attributes(at: 0, effectiveRange: nil)
-					attributes![.strokeWidth] = -1.0
-					stickyTextShadowLabel?.attributedText = NSAttributedString(string: (stickyTextLabel?.attributedText!.string)!, attributes: attributes)
+                    if #available(iOS 11.0, *) {
+                        var attributes = stickyTextLabel?.attributedText?.attributes(at: 0, effectiveRange: nil)
+                        attributes![.strokeWidth] = -1.0
+                        stickyTextShadowLabel?.attributedText = NSAttributedString(string: (stickyTextLabel?.attributedText!.string)!, attributes: attributes)
+                    } else {
+                        // Fallback on earlier versions
+                    }
 					stickyTextShadowLabel?.isHidden = false
 					stickyTextShadowLabel?.position = cachedPosition
 					stickyTextShadowLabel?.alpha = 0.5
@@ -278,27 +290,32 @@ class PuzzleLogic: GameScene {
 					encAnimStage = .Magic
 					break
 				case .Magic:
-					let string = stickyTextLabel?.attributedText?.string
-					var attributes = stickyTextLabel?.attributedText?.attributes(at: 0, effectiveRange: nil)
-					var output: String = String()
-					for index in 0 ... string!.count - 1 {
-						var characterIndex: String.Index = string!.startIndex
-						string!.formIndex(&characterIndex, offsetBy: index)
-						if (string![characterIndex] != " " && string![characterIndex] != "\n" && string![characterIndex] != "," && string![characterIndex] != ".") {
-							output.append(encodeTextList[index % encodeTextList.count])
-						} else {
-							output.append(string![characterIndex])
-						}
-					}
-					let font = UIFont.init(name: (stickyTextLabel!.fontName!) as String, size: stickyTextLabel!.fontSize / 1.5)
-					attributes![.font] = font
-					stickyTextLabel?.attributedText? = NSAttributedString(string: output, attributes: attributes)
-					stickyTextLabel?.position = CGPoint(x: cachedPosition.x + totalOffset, y: cachedPosition.y + totalOffset)
-					var attributes2 = attributes
-					attributes2![.strokeWidth] = -1.0
-					stickyTextShadowLabel?.attributedText? = NSAttributedString(string: output, attributes: attributes2)
-					stickyTextShadowLabel?.position = cachedPosition
-					encAnimStage = .FadingIn
+                    if #available(iOS 11.0, *) {
+                        let string = stickyTextLabel?.attributedText?.string
+                        var attributes = stickyTextLabel?.attributedText?.attributes(at: 0, effectiveRange: nil)
+                        var output: String = String()
+                        for index in 0 ... string!.count - 1 {
+                            var characterIndex: String.Index = string!.startIndex
+                            string!.formIndex(&characterIndex, offsetBy: index)
+                            if (string![characterIndex] != " " && string![characterIndex] != "\n" && string![characterIndex] != "," && string![characterIndex] != ".") {
+                                output.append(encodeTextList[index % encodeTextList.count])
+                            } else {
+                                output.append(string![characterIndex])
+                            }
+                        }
+                        let font = UIFont.init(name: (stickyTextLabel!.fontName!) as String, size: stickyTextLabel!.fontSize / 1.5)
+                        attributes![.font] = font
+                        stickyTextLabel?.attributedText? = NSAttributedString(string: output, attributes: attributes)
+
+                        stickyTextLabel?.position = CGPoint(x: cachedPosition.x + totalOffset, y: cachedPosition.y + totalOffset)
+                        var attributes2 = attributes
+                        attributes2![.strokeWidth] = -1.0
+                        stickyTextShadowLabel?.attributedText? = NSAttributedString(string: output, attributes: attributes2)
+                        stickyTextShadowLabel?.position = cachedPosition
+                        encAnimStage = .FadingIn
+                    } else {
+                        // Fallback on earlier versions
+                    }
 					break
 				case .FadingIn:
 					stickyTextLabel?.run(SKAction.fadeIn(withDuration: 0.3))
@@ -310,7 +327,11 @@ class PuzzleLogic: GameScene {
 					var offset: CGFloat = CGFloat(1 - fadingCharacterAlpha) * totalOffset
 					if (deltaFadeTime >= 1) {
 						offset = 0.0
-						stickyTextShadowLabel?.attributedText = NSAttributedString()
+                        if #available(iOS 11.0, *) {
+                            stickyTextShadowLabel?.attributedText = NSAttributedString()
+                        } else {
+                            // Fallback on earlier versions
+                        }
 						stickyTextShadowLabel?.isHidden = true
 						if (stampSeal) {
 							encAnimStage = .Stamping
@@ -319,9 +340,13 @@ class PuzzleLogic: GameScene {
 							encAnimStage = .Hiding
 						}
 					} else {
-						var attributes = stickyTextLabel?.attributedText?.attributes(at: 0, effectiveRange: nil)
-						attributes![.strokeWidth] = -1.0
-						stickyTextShadowLabel?.attributedText = NSAttributedString(string: (stickyTextLabel?.attributedText!.string)!, attributes: attributes)
+                        if #available(iOS 11.0, *) {
+                            var attributes = stickyTextLabel?.attributedText?.attributes(at: 0, effectiveRange: nil)
+                            attributes![.strokeWidth] = -1.0
+                            stickyTextShadowLabel?.attributedText = NSAttributedString(string: (stickyTextLabel?.attributedText!.string)!, attributes: attributes)
+                        } else {
+                            // Fallback on earlier versions
+                        }
 						stickyTextShadowLabel?.isHidden = false
 						stickyTextShadowLabel?.position = cachedPosition
 					}
@@ -537,7 +562,11 @@ class PuzzleLogic: GameScene {
 			textLabel?.text = ""
 			if (stickyText) {
 				stickyTextLabel?.text = ""
-				stickyTextLabel?.attributedText = NSAttributedString()
+                if #available(iOS 11.0, *) {
+                    stickyTextLabel?.attributedText = NSAttributedString()
+                } else {
+                    // Fallback on earlier versions
+                }
 				stickyTextLabel?.alpha = 1.0
 			}
 			stickyTextLabel?.isHidden = !stickyText

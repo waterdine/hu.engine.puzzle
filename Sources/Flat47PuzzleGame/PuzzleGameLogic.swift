@@ -10,7 +10,7 @@ import Flat47Game
 
 // This is a free function because OOP sucks monkey ass and I am not perpetuating that BS any longer ^_^/
 @available(OSX 10.13, *)
-@available(iOS 11.0, *)
+@available(iOS 9.0, *)
 public func RegisterPuzzleGameScenes(gameLogic: GameLogic) {
 	//RegisterGameLogicScenes()
 	gameLogic.sceneTypes["DatePuzzle"] = DatePuzzleLogic.newScene(gameLogic: gameLogic)
