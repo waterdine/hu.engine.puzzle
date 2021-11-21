@@ -149,7 +149,7 @@ class ZenPuzzleLogic: GameScene {
 			}
 			let gridIndex = gridNameToIndex(text: grid.name!)
 			let gridLabel = self.childNode(withName: gridIndexToLabel(index: gridIndex)) as! SKLabelNode
-			// TODO image
+			// atode: image
 			if (puzzleGrid[gridIndex] != 0)
 			{
 				gridLabel.text = String(puzzleGrid[gridIndex])
@@ -371,7 +371,7 @@ class ZenPuzzleLogic: GameScene {
 					let gridIndex = gridNameToIndex(text: (selectedGridNode?.name)!)
 					let gridLabel = self.childNode(withName: gridIndexToLabel(index: gridIndex)) as! SKLabelNode;
 					puzzleGrid[gridIndex] = value
-					// TODO use images instead of text
+					// atode: use images instead of text
 					gridLabel.text = petalValuetoText(value: value)
 					checkPuzleCompleted(currentTime: timestamp)
 				}

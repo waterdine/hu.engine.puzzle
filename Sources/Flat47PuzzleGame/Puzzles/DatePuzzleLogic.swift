@@ -69,7 +69,7 @@ class DatePuzzleLogic: GameScene {
 		for grid: SKNode in puzzleGridNode!.children {
 			let gridIndex = gridNameToIndex(text: grid.name!)
 			let gridLabel = (grid.children[0]) as! SKLabelNode;
-			// TODO image
+			// atode: image
 			if (puzzleGrid[gridIndex] != 0)
 			{
 				gridLabel.text = String(puzzleGrid[gridIndex])
@@ -218,7 +218,7 @@ class DatePuzzleLogic: GameScene {
 					let value = petalNameToValue(text: (selectedPetalNode?.name)!)
 					let gridIndex = gridNameToIndex(text: (selectedGridNode?.name)!)
 					puzzleGrid[gridIndex] = value
-					// TODO use images instead of text
+					// atode: use images instead of text
 					gridLabel.text = petalValuetoText(value: value)
 				}
 			}
