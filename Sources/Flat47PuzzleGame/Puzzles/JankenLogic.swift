@@ -2,7 +2,7 @@
 //  JankenLogic.swift
 //  TheAmericat iOS
 //
-//  Created by x414e54 on 25/03/2021.
+//  Created by A. A. Bills on 25/03/2021.
 //
 
 import SpriteKit
