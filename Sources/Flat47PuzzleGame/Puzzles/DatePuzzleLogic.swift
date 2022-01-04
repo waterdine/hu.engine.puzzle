@@ -98,7 +98,7 @@ class DatePuzzleLogic: GameScene {
 		selectedPetalNode = nil
 		
 		let questionLabel = self.childNode(withName: "//QuestionLabel") as? SKLabelNode
-		questionLabel!.text = Bundle.main.localizedString(forKey: (self.data?["Question"] as! String), value: nil, table:  self.gameLogic!.getChapterTable())
+        questionLabel!.text = Bundle.main.localizedString(forKey: (data as! DatePuzzleScene).Question, value: nil, table:  self.gameLogic!.getChapterTable())
 		
 		let textLabel = self.childNode(withName: "//TextLabel") as? SKLabelNode
 		textLabel!.text = ""
@@ -359,10 +359,10 @@ class DatePuzzleLogic: GameScene {
 	
 	func checkPuzleCompleted() {
 		let selectedDate: String = String.init(format: "%d%d%d%d", puzzleGrid[0], puzzleGrid[1], puzzleGrid[2], puzzleGrid[3])
-		let expectedDate: String = Bundle.main.localizedString(forKey: (self.data?["Answer"] as! String), value: nil, table:  self.gameLogic!.getChapterTable())
+        let expectedDate: String = Bundle.main.localizedString(forKey: (data as! DatePuzzleScene).Answer, value: nil, table:  self.gameLogic!.getChapterTable())
 		if (selectedDate == expectedDate)
 		{
-			let skipToScene = self.data?["SkipTo"] as! Int
+            let skipToScene = (data as! DatePuzzleScene).SkipTo
 			self.gameLogic?.setScene(index: skipToScene)
 		} else {
 			self.gameLogic?.nextScene()
@@ -370,8 +370,8 @@ class DatePuzzleLogic: GameScene {
 	}
 	
 	func hasMoreText() -> Bool {
-		var textList: NSArray?
-		textList = self.data?["Text"] as? NSArray
+		var textList: [TextLine]?
+        textList = (data as! DatePuzzleScene).Text
 		return textList!.count > self.currentTextIndex + 1
 	}
 	
@@ -383,11 +383,11 @@ class DatePuzzleLogic: GameScene {
 		(textLabel!).alpha = 0.0
 		(textLabel!).run(SKAction.fadeIn(withDuration: 1.0))
 		
-		var textList: NSArray?
-		textList = self.data?["Text"] as? NSArray
+		var textList: [TextLine]?
+        textList = (data as! DatePuzzleScene).Text
 		
 		if (textList != nil && textList!.count > self.currentTextIndex) {
-			textLabel?.text = Bundle.main.localizedString(forKey: (textList?[self.currentTextIndex] as! String), value: nil, table:  self.gameLogic!.getChapterTable())
+            textLabel?.text = Bundle.main.localizedString(forKey: textList![self.currentTextIndex].textString, value: nil, table:  self.gameLogic!.getChapterTable())
 		}
 		// fade text in
 	}

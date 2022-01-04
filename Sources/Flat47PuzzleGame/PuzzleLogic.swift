@@ -655,9 +655,9 @@ class PuzzleLogic: GameScene {
 	func getTextList() -> [String] {
 		var textList: [String]? = nil
 		if (puzzleComplete) {
-			textList = self.data?["SolvedText"] as? [String]
+            textList = (data as! PuzzleScene).SolvedText as? [String]
 		} else {
-			textList = self.data?["Text"] as? [String]
+            textList = (data as! PuzzleScene).Text as? [String]
 		}
 		return textList!
 	}

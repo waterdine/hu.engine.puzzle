@@ -33,7 +33,7 @@ class SearchPuzzleLogic: PuzzleLogic {
 		super.didMove(to: view)
 		let puzzleImage = self.childNode(withName: "//PuzzleImage") as! SKSpriteNode
 		
-		let image: String = self.data?["Image"] as! String
+		let image: String = ""//self.data?["Image"] as! String
 		let imagePath = Bundle.main.path(forResource: image, ofType: ".png")
 		if (imagePath != nil) {
 			puzzleImage.isHidden = false
@@ -80,7 +80,7 @@ class SearchPuzzleLogic: PuzzleLogic {
 			if (puzzleImage.frame.contains(point)) {
 				let offsetPoint: CGPoint = CGPoint(x: point.x - puzzleImage.position.x, y: point.y - puzzleImage.position.y)
 				
-				let hotSpots: [NSDictionary] = self.data?["HotSpots"] as! [NSDictionary]
+				let hotSpots: [NSDictionary] = []//self.data?["HotSpots"] as! [NSDictionary]
 				for hotSpot: NSDictionary in hotSpots {
 					let radius: Int = hotSpot["Radius"] as! Int
 					let center: CGPoint = CGPoint(x: hotSpot["X"] as! Int, y: hotSpot["Y"] as! Int)

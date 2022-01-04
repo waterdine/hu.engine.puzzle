@@ -67,7 +67,7 @@ class JankenLogic: PuzzleLogic {
 		playerOneHealthBar?.xScale = 1.0
 		playerTwoHealthBar?.xScale = 1.0
 		playerOneName?.text = self.gameLogic?.unwrapVariables(text: "$PlayerName")
-		playerTwoName?.text = self.data?["Opponent"] as? String
+		//playerTwoName?.text = self.data?["Opponent"] as? String
 		animatingRound = .Finished
 		playerOneSelection?.isHidden = true
 		playerTwoSelection?.isHidden = true
@@ -183,7 +183,7 @@ class JankenLogic: PuzzleLogic {
 	
 	func makeChoice(playerOneChoice: JankenChoice) {
 		var playerTwoChoices: [JankenChoice] = [.Rock, .Paper, .Scissors]
-		let forceWin = self.data?["ForceWin"] as? Bool
+        let forceWin: Bool? = nil//self.data?["ForceWin"] as? Bool
 		if (forceWin != nil && forceWin! && playerOneHealth <= playerTwoHealth) {
 			switch playerOneChoice {
 			case .Rock:

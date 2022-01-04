@@ -6,18 +6,79 @@
 //
 
 import Foundation
+import Flat47Game
 
-class DatePuzzleScene: VisualScene {
-    var Question: String = ""
-    var Answer: String = ""
-    var SkipTo: Int = 0
-    var Text: [TextLine] = []
+open class PuzzleScene: VisualScene {
+    public var Text: [TextLine]? = nil
+    public var SolvedText: [TextLine]? = nil
+    
+    enum PuzzleScene: String, CodingKey {
+        case Text
+        case SolvedText
+    }
+    
+    override init() {
+        super.init()
+    }
+    
+    override init(from scriptParameters: [String : String], strings: inout [String : String]) {
+        super.init(from: scriptParameters, strings: &strings)
+    }
+    
+    required public init(from decoder: Decoder) throws {
+        try super.init(from: decoder)
+        let container = try decoder.container(keyedBy: PuzzleScene.self)
+        Text = try container.decodeIfPresent([TextLine].self, forKey: PuzzleScene.Text)
+        SolvedText = try container.decodeIfPresent([TextLine].self, forKey: PuzzleScene.SolvedText)
+    }
+    
+    open override func encode(to encoder: Encoder) throws {
+        try super.encode(to: encoder)
+        var container = encoder.container(keyedBy: PuzzleScene.self)
+        try container.encodeIfPresent(Text, forKey: PuzzleScene.Text)
+        try container.encodeIfPresent(SolvedText, forKey: PuzzleScene.SolvedText)
+    }
+    
+    open override func toScriptLines(index: Int, strings: [String : String], indexMap: [Int : String]) -> [String] {
+        var lines: [String] = []
+        
+        lines.append(contentsOf: super.toScriptLines(index: index, strings: strings, indexMap: indexMap))
+                
+        if (Text != nil) {
+            for textLine in Text! {
+                if (textLine.textString.starts(with: "[") || textLine.textString.isEmpty) {
+                    lines.append(textLine.textString)
+                } else {
+                    lines.append(strings[textLine.textString]!)
+                }
+            }
+        }
+        
+        if (SolvedText != nil) {
+            lines.append("// Solved Text")
+            
+            for textLine in SolvedText! {
+                if (textLine.textString.starts(with: "[") || textLine.textString.isEmpty) {
+                    lines.append(textLine.textString)
+                } else {
+                    lines.append(strings[textLine.textString]!)
+                }
+            }
+        }
+        
+        return lines
+    }
+}
+
+open class DatePuzzleScene: PuzzleScene {
+    public var Question: String = ""
+    public var Answer: String = ""
+    public var SkipTo: Int = 0
     
     enum DatePuzzleCodingKeys: String, CodingKey {
         case Question
         case Answer
         case SkipTo
-        case Text
     }
     
     override init() {
@@ -42,25 +103,23 @@ class DatePuzzleScene: VisualScene {
         }
     }
     
-    required init(from decoder: Decoder) throws {
+    required public init(from decoder: Decoder) throws {
         try super.init(from: decoder)
         let container = try decoder.container(keyedBy: DatePuzzleCodingKeys.self)
         Question = try container.decode(String.self, forKey: DatePuzzleCodingKeys.Question)
         Answer = try container.decode(String.self, forKey: DatePuzzleCodingKeys.Answer)
         SkipTo = try container.decode(Int.self, forKey: DatePuzzleCodingKeys.SkipTo)
-        Text = try container.decode([TextLine].self, forKey: DatePuzzleCodingKeys.Text)
     }
     
-    override func encode(to encoder: Encoder) throws {
+    open override func encode(to encoder: Encoder) throws {
         try super.encode(to: encoder)
         var container = encoder.container(keyedBy: DatePuzzleCodingKeys.self)
         try container.encode(Question, forKey: DatePuzzleCodingKeys.Question)
         try container.encode(Answer, forKey: DatePuzzleCodingKeys.Answer)
         try container.encode(SkipTo, forKey: DatePuzzleCodingKeys.SkipTo)
-        try container.encode(Text, forKey: DatePuzzleCodingKeys.Text)
     }
     
-    override func toScriptHeader(index: Int, strings: [String : String], indexMap: [Int : String]) -> String {
+    open override func toScriptHeader(index: Int, strings: [String : String], indexMap: [Int : String]) -> String {
         var scriptLine: String = super.toScriptHeader(index: index, strings: strings, indexMap: indexMap)
         
         if (indexMap[SkipTo] != nil) {
@@ -72,7 +131,7 @@ class DatePuzzleScene: VisualScene {
         return scriptLine
     }
     
-    override func toScriptLines(index: Int, strings: [String : String], indexMap: [Int : String]) -> [String] {
+    open override func toScriptLines(index: Int, strings: [String : String], indexMap: [Int : String]) -> [String] {
         var lines: [String] = []
         
         lines.append(contentsOf: super.toScriptLines(index: index, strings: strings, indexMap: indexMap))
@@ -81,25 +140,15 @@ class DatePuzzleScene: VisualScene {
         
         lines.append("Answer: " + strings[Answer]!)
         
-        for textLine in Text {
-            if (textLine.textString.starts(with: "[")) {
-                lines.append(textLine.textString)
-            } else {
-                lines.append(strings[textLine.textString]!)
-            }
-        }
-        
         return lines
     }
 }
 
-class ZenPuzzleScene: VisualScene {
-    var Question: String? = nil
-    var ZenChoice: Int? = nil
-    var DifficultyLevel: Int? = nil
-    var Animate: Bool? = nil
-    var Text: [TextLine]? = nil
-    var SolvedText: [TextLine]? = nil
+open class ZenPuzzleScene: PuzzleScene {
+    public var Question: String? = nil
+    public var ZenChoice: Int? = nil
+    public var DifficultyLevel: Int? = nil
+    public var Animate: Bool? = nil
     
     enum ZenPuzzleCodingKeys: String, CodingKey {
         case Question
@@ -135,29 +184,25 @@ class ZenPuzzleScene: VisualScene {
         }
     }
     
-    required init(from decoder: Decoder) throws {
+    required public init(from decoder: Decoder) throws {
         try super.init(from: decoder)
         let container = try decoder.container(keyedBy: ZenPuzzleCodingKeys.self)
         Question = try container.decodeIfPresent(String.self, forKey: ZenPuzzleCodingKeys.Question)
         ZenChoice = try container.decodeIfPresent(Int.self, forKey: ZenPuzzleCodingKeys.ZenChoice)
         DifficultyLevel = try container.decodeIfPresent(Int.self, forKey: ZenPuzzleCodingKeys.DifficultyLevel)
         Animate = try container.decodeIfPresent(Bool.self, forKey: ZenPuzzleCodingKeys.Animate)
-        Text = try container.decodeIfPresent([TextLine].self, forKey: ZenPuzzleCodingKeys.Text)
-        SolvedText = try container.decodeIfPresent([TextLine].self, forKey: ZenPuzzleCodingKeys.SolvedText)
     }
     
-    override func encode(to encoder: Encoder) throws {
+    open override func encode(to encoder: Encoder) throws {
         try super.encode(to: encoder)
         var container = encoder.container(keyedBy: ZenPuzzleCodingKeys.self)
         try container.encodeIfPresent(Question, forKey: ZenPuzzleCodingKeys.Question)
         try container.encodeIfPresent(ZenChoice, forKey: ZenPuzzleCodingKeys.ZenChoice)
         try container.encodeIfPresent(DifficultyLevel, forKey: ZenPuzzleCodingKeys.DifficultyLevel)
         try container.encodeIfPresent(Animate, forKey: ZenPuzzleCodingKeys.Animate)
-        try container.encodeIfPresent(Text, forKey: ZenPuzzleCodingKeys.Text)
-        try container.encodeIfPresent(SolvedText, forKey: ZenPuzzleCodingKeys.SolvedText)
     }
     
-    override func toScriptHeader(index: Int, strings: [String : String], indexMap: [Int : String]) -> String {
+    open override func toScriptHeader(index: Int, strings: [String : String], indexMap: [Int : String]) -> String {
         var scriptLine: String = super.toScriptHeader(index: index, strings: strings, indexMap: indexMap)
         
         if (ZenChoice != nil) {
@@ -175,35 +220,13 @@ class ZenPuzzleScene: VisualScene {
         return scriptLine
     }
     
-    override func toScriptLines(index: Int, strings: [String : String], indexMap: [Int : String]) -> [String] {
+    open override func toScriptLines(index: Int, strings: [String : String], indexMap: [Int : String]) -> [String] {
         var lines: [String] = []
         
         lines.append(contentsOf: super.toScriptLines(index: index, strings: strings, indexMap: indexMap))
         
         if (Question != nil) {
             lines.append("Question: " + strings[Question!]!)
-        }
-        
-        if (Text != nil) {
-            for textLine in Text! {
-                if (textLine.textString.starts(with: "[") || textLine.textString.isEmpty) {
-                    lines.append(textLine.textString)
-                } else {
-                    lines.append(strings[textLine.textString]!)
-                }
-            }
-        }
-        
-        if (SolvedText != nil) {
-            lines.append("// Solved Text")
-            
-            for textLine in SolvedText! {
-                if (textLine.textString.starts(with: "[") || textLine.textString.isEmpty) {
-                    lines.append(textLine.textString)
-                } else {
-                    lines.append(strings[textLine.textString]!)
-                }
-            }
         }
         
         return lines

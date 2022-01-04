@@ -100,7 +100,7 @@ class ZenPuzzleLogic: GameScene {
 		assert(squareList!.count > 50)
 		var chosenSquareIndex = Int.random(in: 0...squareList!.count - 1)
 		
-		let zenChoice = self.data?["ZenChoice"] as? Int
+        let zenChoice = (data as! ZenPuzzleScene).ZenChoice
 		if (zenChoice == nil) {
 			while (((self.gameLogic?.usedSquares.contains(chosenSquareIndex))!)) {
 				chosenSquareIndex = (chosenSquareIndex + 1) % squareList!.count
@@ -117,7 +117,7 @@ class ZenPuzzleLogic: GameScene {
 			puzzleGrid[index] = gridStringToValue(text: String(puzzleGridValues![index]))
 		}
 		
-		let difficulty = self.data?["DifficultyLevel"] as! Int
+        let difficulty = (data as! ZenPuzzleScene).DifficultyLevel
 		
 		if (difficulty == -1)
 		{
@@ -210,7 +210,7 @@ class ZenPuzzleLogic: GameScene {
 		
 		let backgroundNode = self.childNode(withName: "//SKSpriteNode")
 		let pos = backgroundNode?.userData!["OriginalPos"] as! Int
-		let animate = self.data?["Animate"] as? Bool
+        let animate = (data as! ZenPuzzleScene).Animate
 		if (pos != 0 && animate != nil && animate! == true) {
 			backgroundNode?.position.x = CGFloat(pos)
 			backgroundNode?.run(SKAction.moveTo(x: 0.0, duration: 5.0))
@@ -810,21 +810,21 @@ class ZenPuzzleLogic: GameScene {
 			return true
 		}
 		
-		var textList: NSArray?
+		var textList: [String]?
 		if (puzzleComplete) {
-			textList = self.data?["SolvedText"] as? NSArray
+            textList = (data as! ZenPuzzleScene).SolvedText
 		} else {
-			textList = self.data?["Text"] as? NSArray
+            textList = (data as! ZenPuzzleScene).Text
 		}
 		return (currentTextIndex == -1) || (stickyText && (textList![self.currentTextIndex + 1] as! String != ""))
 	}
 	
 	func hasMoreText() -> Bool {
-		var textList: NSArray?
+		var textList: [String]?
 		if (puzzleComplete) {
-			textList = self.data?["SolvedText"] as? NSArray
+            textList = (data as! ZenPuzzleScene).SolvedText
 		} else {
-			textList = self.data?["Text"] as? NSArray
+            textList = (data as! ZenPuzzleScene).Text
 		}
 		return textList!.count > self.currentTextIndex + 1
 	}
@@ -874,11 +874,11 @@ class ZenPuzzleLogic: GameScene {
 		
 		currentTextIndex += 1
 		
-		var textList: NSArray?
+		var textList: [TextLine]?
 		if (puzzleComplete) {
-			textList = self.data?["SolvedText"] as? NSArray
+            textList = (data as! ZenPuzzleScene).SolvedText
 		} else {
-			textList = self.data?["Text"] as? NSArray
+            textList = (data as! ZenPuzzleScene).Text
 		}
 		
 		let textLabel = self.childNode(withName: "//TextLabel") as? SKLabelNode
