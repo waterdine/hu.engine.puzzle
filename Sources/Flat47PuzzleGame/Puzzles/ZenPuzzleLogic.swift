@@ -117,7 +117,7 @@ class ZenPuzzleLogic: GameScene {
 			puzzleGrid[index] = gridStringToValue(text: String(puzzleGridValues![index]))
 		}
 		
-        let difficulty = (data as! ZenPuzzleScene).DifficultyLevel
+        let difficulty = (data as! ZenPuzzleScene).DifficultyLevel ?? 0
 		
 		if (difficulty == -1)
 		{
@@ -810,17 +810,17 @@ class ZenPuzzleLogic: GameScene {
 			return true
 		}
 		
-		var textList: [String]?
+		var textList: [TextLine]?
 		if (puzzleComplete) {
             textList = (data as! ZenPuzzleScene).SolvedText
 		} else {
             textList = (data as! ZenPuzzleScene).Text
 		}
-		return (currentTextIndex == -1) || (stickyText && (textList![self.currentTextIndex + 1] as! String != ""))
+        return (currentTextIndex == -1) || (stickyText && (textList![self.currentTextIndex + 1].textString != ""))
 	}
 	
 	func hasMoreText() -> Bool {
-		var textList: [String]?
+		var textList: [TextLine]?
 		if (puzzleComplete) {
             textList = (data as! ZenPuzzleScene).SolvedText
 		} else {
@@ -885,7 +885,7 @@ class ZenPuzzleLogic: GameScene {
 		let textCover = self.childNode(withName: "//TextCover") as? SKSpriteNode
 		let stickyTextLabel = self.childNode(withName: "//StickyTextLabel") as? SKLabelNode
 		
-		if (textList != nil && textList!.count > self.currentTextIndex && textList![self.currentTextIndex] as! String == "") {
+		if (textList != nil && textList!.count > self.currentTextIndex && textList![self.currentTextIndex].textString == "") {
 			stickyText = !stickyText
 			textLabel?.text = ""
 			if (stickyText) {
@@ -908,7 +908,7 @@ class ZenPuzzleLogic: GameScene {
 		
 		let BGMask = self.childNode(withName: "//BGMask") as? SKSpriteNode
 		let BGMaskTextCover = self.childNode(withName: "//BGMaskTextCover") as? SKSpriteNode
-		if (textList != nil && textList!.count > self.currentTextIndex && textList![self.currentTextIndex] as! String == "[enc]") {
+		if (textList != nil && textList!.count > self.currentTextIndex && textList![self.currentTextIndex].textString == "[enc]") {
 			textShowing = true
 			encrypting = true
 			nextEncAnim = -1.0
@@ -917,7 +917,7 @@ class ZenPuzzleLogic: GameScene {
 			BGMask!.isHidden = false
 			BGMaskTextCover!.isHidden = true
 			return
-		} else if (textList != nil && textList!.count > self.currentTextIndex && textList![self.currentTextIndex] as! String == "[senc]") {
+		} else if (textList != nil && textList!.count > self.currentTextIndex && textList![self.currentTextIndex].textString == "[senc]") {
 			textShowing = true
 			encrypting = true
 			stampSeal = true
@@ -940,12 +940,12 @@ class ZenPuzzleLogic: GameScene {
 			genTextLabel?.text! = fixedText
 			var tempTextIndex = currentTextIndex
 			repeat {
-				let string = (textList?[tempTextIndex] as! String)
+				let string = (textList?[tempTextIndex].textString)
 				if (string != "[enc]") {
 					if (genTextLabel?.text != "" && !(genTextLabel?.text?.hasSuffix("\n"))!) {
 						genTextLabel?.text! += "\n"
 					}
-					genTextLabel?.text! += Bundle.main.localizedString(forKey: string, value: nil, table:  self.gameLogic!.getChapterTable())
+                    genTextLabel?.text! += Bundle.main.localizedString(forKey: string!, value: nil, table:  self.gameLogic!.getChapterTable())
 					if (genTextLabel!.text!.hasSuffix(" (seal).")) {
 						genTextLabel!.text! = (genTextLabel?.text!.replacingOccurrences(of: " (seal).", with: "."))!
 					} else if (genTextLabel!.text!.hasSuffix(" (sseal).")) {
@@ -953,7 +953,7 @@ class ZenPuzzleLogic: GameScene {
 					}
 				}
 				tempTextIndex += 1
-			} while(tempTextIndex < textList!.count && textList![tempTextIndex] as! String != "")
+			} while(tempTextIndex < textList!.count && textList![tempTextIndex].textString != "")
 			
 			let differenceInX = stickyTextLabel!.frame.minX - BGMask!.frame.minX
 			let height = max(genTextLabel!.frame.height + (2 * differenceInX), (textCover?.frame.height)!)
@@ -963,7 +963,7 @@ class ZenPuzzleLogic: GameScene {
 			let pos = CGPoint(x: stickyTextLabel!.frame.minX, y: BGMask!.frame.maxY - differenceInX)
 			stickyTextLabel!.position = pos
 			if (textList != nil && textList!.count > self.currentTextIndex) {
-				newText += Bundle.main.localizedString(forKey: (textList?[self.currentTextIndex] as! String), value: nil, table:  self.gameLogic!.getChapterTable())
+				newText += Bundle.main.localizedString(forKey: (textList![self.currentTextIndex].textString), value: nil, table:  self.gameLogic!.getChapterTable())
 				if (newText.hasSuffix(" (seal).")) {
 					newText = newText.replacingOccurrences(of: " (seal).", with: ".")
 					fadeSeal = true
@@ -974,7 +974,7 @@ class ZenPuzzleLogic: GameScene {
 			lastTextChange = 0.0
 		} else {
 			if (textList != nil && textList!.count > self.currentTextIndex) {
-				textLabel?.text! = Bundle.main.localizedString(forKey: (textList?[self.currentTextIndex] as! String), value: nil, table:  self.gameLogic!.getChapterTable())
+				textLabel?.text! = Bundle.main.localizedString(forKey: (textList![self.currentTextIndex].textString), value: nil, table:  self.gameLogic!.getChapterTable())
 				(textLabel!).alpha = 0.0
 				(textLabel!).run(SKAction.fadeIn(withDuration: 1.0))
 			}
