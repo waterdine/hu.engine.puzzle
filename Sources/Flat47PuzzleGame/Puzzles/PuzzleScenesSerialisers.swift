@@ -22,6 +22,12 @@ class PuzzleGameSceneSerialiser: BaseSceneSerialiser {
             case "ZenPuzzle":
                 scene = ZenPuzzleScene.init(from: scriptParameters, strings: &strings)
                 break
+            case "Janken":
+                scene = JankenScene.init(from: scriptParameters, strings: &strings)
+                break
+            case "TV":
+                scene = TVScene.init(from: scriptParameters, strings: &strings)
+                break
             default:
                 break
         }
@@ -37,6 +43,12 @@ class PuzzleGameSceneSerialiser: BaseSceneSerialiser {
         case "ZenPuzzle":
             scene = try ZenPuzzleScene.init(from: decoder)
             break
+        case "Janken":
+            scene = try JankenScene.init(from: decoder)
+            break
+        case "TV":
+            scene = try TVScene.init(from: decoder)
+            break
         default:
             break
         }
@@ -50,6 +62,12 @@ class PuzzleGameSceneSerialiser: BaseSceneSerialiser {
             break
         case "ZenPuzzle":
             try (scene as! ZenPuzzleScene).encode(to: encoder)
+            break
+        case "Janken":
+            try (scene as! JankenScene).encode(to: encoder)
+            break
+        case "TV":
+            try (scene as! TVScene).encode(to: encoder)
             break
         default:
             break
@@ -69,6 +87,16 @@ class PuzzleGameSceneSerialiser: BaseSceneSerialiser {
                 newData = ZenPuzzleScene()
             }
             break
+        case "Janken":
+            if (!(scene is JankenScene)) {
+                newData = JankenScene()
+            }
+            break
+        case "TV":
+            if (!(scene is TVScene)) {
+                newData = TVScene()
+            }
+            break
         default:
             break
         }
@@ -81,6 +109,10 @@ class PuzzleGameSceneSerialiser: BaseSceneSerialiser {
                 return (scene as! DatePuzzleScene).getDescription()
             case "ZenPuzzle":
                 return (scene as! ZenPuzzleScene).getDescription()
+            case "Janken":
+                return (scene as! JankenScene).getDescription()
+            case "TV":
+                return (scene as! TVScene).getDescription()
             default:
                 return ""
         }
@@ -93,20 +125,6 @@ class PuzzleGameSceneSerialiser: BaseSceneSerialiser {
             let lineString = "line_\(lineIndex)"
             let lineReference = chapterNumber + "_" + sceneNumber + "_" + lineString
             switch scene.Scene {
-            case "Story":
-                if (!command) {
-                    strings[lineReference] = String(text)
-                    line.textString = lineReference
-                }
-                (scene as! StoryScene).Text.append(line)
-                break
-            case "CutScene":
-                if (!command) {
-                    strings[lineReference] = String(text)
-                    line.textString = lineReference
-                }
-                (scene as! CutSceneScene).Text.append(line)
-                break
             case "ZenPuzzle":
                 if (text.starts(with: "Question")) {
                     (scene as! ZenPuzzleScene).Question = chapterNumber + "_" + sceneNumber + "_question"
@@ -132,85 +150,11 @@ class PuzzleGameSceneSerialiser: BaseSceneSerialiser {
                 } else {
                     strings[lineReference] = String(text)
                     line.textString = lineReference
-                    (scene as! DatePuzzleScene).Text.append(line)
+                    if ((scene as! DatePuzzleScene).Text != nil) {
+                        (scene as! DatePuzzleScene).Text!.append(line)
+                    }
                 }
                 break
-            case "Choice":
-                if (text.starts(with: "DirectingText")) {
-                    (scene as! ChoiceScene).DirectingText = chapterNumber + "_" + sceneNumber + "_direction"
-                    strings[(scene as! ChoiceScene).DirectingText] = text.replacingOccurrences(of: "DirectingText: ", with: "")
-                } else if (text.starts(with: "Choice")) {
-                    let choiceSplit = text.replacingOccurrences(of: "//", with: "±").split(separator: "±")
-                    let choiceTextSplit = choiceSplit[0].split(separator: ":")
-                    let choiceNumber: String = String(choiceTextSplit[0]).replacingOccurrences(of: "Text", with: "").replacingOccurrences(of: "Choice", with: "").trimmingCharacters(in: [" ", "-", ",", ":", "/"])
-                    let choiceText: String = String(choiceTextSplit[1]).trimmingCharacters(in: [" ", "-", ",", ":", "/"])
-                    var choiceParameters: [String : String] = ["Text" : choiceText]
-                    choiceParameters["Choice"] = choiceNumber
-                    if (choiceSplit.count > 1) {
-                        let choiceParameterSplit = choiceSplit[1].split(separator: ",")
-                        for parameterCombined in choiceParameterSplit {
-                            if (!parameterCombined.starts(with: "Choice")) {
-                                let parameterSplit = parameterCombined.split(separator: ":")
-                                let parameter = String(parameterSplit[0]).trimmingCharacters(in: [" ", "-", ",", ":"])
-                                let value = String(parameterSplit[1]).trimmingCharacters(in: [" ", "-", ",", ":"])
-                                choiceParameters[parameter] = value
-                            }
-                        }
-                    }
-                    
-                    // Map the SkipTos to SceneLabels
-                    if (choiceParameters["SkipTo"] != nil) {
-                        var newSkipTo = ""
-                        for skipToUntrimmed in choiceParameters["SkipTo"]!.split(separator: ";") {
-                            let skipToTrimmed = skipToUntrimmed.trimmingCharacters(in: [" ", ",", ";"])
-                            var skipToNumber = Int(skipToTrimmed)
-                            if (skipToNumber == nil) {
-                                if (sceneLabelMap[skipToTrimmed] == nil) {
-                                    let newIndex = -(sceneLabelMap.count + 1)
-                                    sceneLabelMap[skipToTrimmed] = newIndex
-                                    skipToNumber = newIndex
-                                } else {
-                                    skipToNumber = sceneLabelMap[skipToTrimmed]!
-                                }
-                            }
-                            
-                            if (!newSkipTo.isEmpty) {
-                                newSkipTo += ";"
-                            }
-                            
-                            newSkipTo += "\(skipToNumber!)"
-                        }
-                        choiceParameters["SkipTo"] = newSkipTo
-                    }
-                    
-                    choiceParameters["Chapter"] = chapterNumber
-                    choiceParameters["SceneNumber"] = sceneNumber
-                    let choice = Choice.init(from: choiceParameters, strings: &strings)
-                    let choiceIndex = Int(choiceNumber)!
-                    // atode: Check choiceIndex > 0 and handle it otherwise
-                    if ((scene as! ChoiceScene).Choices == nil) {
-                        (scene as! ChoiceScene).Choices = []
-                    }
-                    
-                    for _ in (scene as! ChoiceScene).Choices!.count..<choiceIndex {
-                        (scene as! ChoiceScene).Choices!.append(Choice())
-                    }
-                    (scene as! ChoiceScene).Choices?[choiceIndex - 1] = choice
-                }
-            case "ChapterTransition":
-                if (text.starts(with: "HorizontalNumber")) {
-                    (scene as! ChapterTransitionScene).HorizontalNumber = chapterNumber + "_horizontal_number"
-                    strings[(scene as! ChapterTransitionScene).HorizontalNumber] = text.replacingOccurrences(of: "HorizontalNumber: ", with: "")
-                } else if (text.starts(with: "HorizontalTitle")) {
-                    (scene as! ChapterTransitionScene).HorizontalTitle = chapterNumber + "_horizontal_title"
-                    strings[(scene as! ChapterTransitionScene).HorizontalTitle] = text.replacingOccurrences(of: "HorizontalTitle: ", with: "")
-                } else if (text.starts(with: "VerticalNumber")) {
-                    (scene as! ChapterTransitionScene).VerticalNumber = chapterNumber + "_vertical_number"
-                    strings[(scene as! ChapterTransitionScene).VerticalNumber] = text.replacingOccurrences(of: "VerticalNumber: ", with: "")
-                } else if (text.starts(with: "VerticalTitle")) {
-                    (scene as! ChapterTransitionScene).VerticalTitle = chapterNumber + "_vertical_title"
-                    strings[(scene as! ChapterTransitionScene).VerticalTitle] = text.replacingOccurrences(of: "VerticalTitle: ", with: "")
-                }
             default: break
             }
         //} else if (textBucket == "Solved") {
@@ -229,6 +173,7 @@ class PuzzleGameSceneSerialiser: BaseSceneSerialiser {
                 break
             default: break
             }
+        }
     }
     
     open override func stringsLines(scene: BaseScene, index: Int, strings: [String : String]) -> [String] {
@@ -236,7 +181,7 @@ class PuzzleGameSceneSerialiser: BaseSceneSerialiser {
         switch scene.Scene {
             case "DatePuzzle":
                 lines.append(contentsOf: (scene as! DatePuzzleScene).toStringsLines(index: index, strings: strings))
-                for textLine in (scene as! DatePuzzleScene).Text {
+                for textLine in (scene as! DatePuzzleScene).Text ?? [] {
                     if (!textLine.textString.starts(with: "[") && !textLine.textString.isEmpty) {
                         lines.append("\"" + textLine.textString + "\" = \"" + strings[textLine.textString]!.replacingOccurrences(of: "\"", with: "\\\"") + "\";")
                     }

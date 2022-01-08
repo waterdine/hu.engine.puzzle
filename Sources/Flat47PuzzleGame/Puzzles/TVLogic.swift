@@ -94,15 +94,15 @@ class TVLogic: PuzzleLogic {
 	
 	override func getTextList() -> [String] {
 		var textList: [String]? = nil
-		/*let tunedChannels = self.data?["TunedChannels"] as! [Int]
+        let tunedChannels = (self.data as! TVScene).TunedChannels!
 		var textIndex = tunedChannels.firstIndex(of: channelIndex)
 		if (textIndex == nil || textIndex! < 0) {
 			textIndex = 0
 		} else {
 			textIndex! += 1
 		}
-		let channels = self.data?["Channels"] as! [NSDictionary]
-		textList = channels[textIndex!]["Text"] as? [String]*/
+        let channels = (self.data as! TVScene).Channels
+        textList = channels![textIndex!].Text
 		return textList!
 	}
 }

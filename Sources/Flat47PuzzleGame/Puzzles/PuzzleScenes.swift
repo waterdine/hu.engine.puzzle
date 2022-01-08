@@ -232,3 +232,146 @@ open class ZenPuzzleScene: PuzzleScene {
         return lines
     }
 }
+
+open class JankenScene: PuzzleScene {
+    public var Opponent: String? = nil
+    public var ForceWin: Bool? = nil
+    
+    enum JankenCodingKeys: String, CodingKey {
+        case Opponent
+        case ForceWin
+    }
+    
+    override init() {
+        super.init()
+    }
+    
+    override init(from scriptParameters: [String : String], strings: inout [String : String]) {
+        super.init(from: scriptParameters, strings: &strings)
+        
+        if (scriptParameters["Opponent"] != nil) {
+            Opponent = scriptParameters["Opponent"]
+        }
+        
+        if (scriptParameters["ForceWin"] != nil) {
+            ForceWin = (scriptParameters["ForceWin"] == "True") ? true : false
+        }
+    }
+    
+    required public init(from decoder: Decoder) throws {
+        try super.init(from: decoder)
+        let container = try decoder.container(keyedBy: JankenCodingKeys.self)
+        Opponent = try container.decodeIfPresent(String.self, forKey: JankenCodingKeys.Opponent)
+        ForceWin = try container.decodeIfPresent(Bool.self, forKey: JankenCodingKeys.ForceWin)
+    }
+    
+    open override func encode(to encoder: Encoder) throws {
+        try super.encode(to: encoder)
+        var container = encoder.container(keyedBy: JankenCodingKeys.self)
+        try container.encodeIfPresent(Opponent, forKey: JankenCodingKeys.Opponent)
+        try container.encodeIfPresent(ForceWin, forKey: JankenCodingKeys.ForceWin)
+    }
+    
+    open override func toScriptHeader(index: Int, strings: [String : String], indexMap: [Int : String]) -> String {
+        var scriptLine: String = super.toScriptHeader(index: index, strings: strings, indexMap: indexMap)
+        
+        if (Opponent != nil) {
+            scriptLine += ", Opponent: \(Opponent!)"
+        }
+        
+        if (ForceWin != nil) {
+            scriptLine += ", ForceWin: " + ((ForceWin! == true) ? "True" : "False")
+        }
+        
+        return scriptLine
+    }
+    
+    open override func toScriptLines(index: Int, strings: [String : String], indexMap: [Int : String]) -> [String] {
+        var lines: [String] = []
+        
+        lines.append(contentsOf: super.toScriptLines(index: index, strings: strings, indexMap: indexMap))
+        
+        if (Opponent != nil) {
+            lines.append("Opponent: " + strings[Opponent!]!)
+        }
+        
+        return lines
+    }
+}
+
+public struct TVChannel: Identifiable, Codable {
+    public var id: UUID = UUID()
+    public var Sound: String = ""
+    public var Image: String = ""
+    public var Text: [String] = []
+    
+    public init() {
+    }
+}
+
+
+open class TVScene: PuzzleScene {
+    public var TunedChannels: [Int]? = nil
+    public var Channels: [TVChannel]? = nil
+    
+    enum TVCodingKeys: String, CodingKey {
+        case TunedChannels
+        case Channels
+    }
+    
+    override init() {
+        super.init()
+    }
+    
+    override init(from scriptParameters: [String : String], strings: inout [String : String]) {
+        super.init(from: scriptParameters, strings: &strings)
+        
+        /*if (scriptParameters["Opponent"] != nil) {
+            Opponent = scriptParameters["Opponent"]
+        }
+        
+        if (scriptParameters["ForceWin"] != nil) {
+            ForceWin = (scriptParameters["ForceWin"] == "True") ? true : false
+        }*/
+    }
+    
+    required public init(from decoder: Decoder) throws {
+        try super.init(from: decoder)
+        /*let container = try decoder.container(keyedBy: JankenCodingKeys.self)
+        Opponent = try container.decodeIfPresent(String.self, forKey: JankenCodingKeys.Opponent)
+        ForceWin = try container.decodeIfPresent(Bool.self, forKey: JankenCodingKeys.ForceWin)*/
+    }
+    
+    open override func encode(to encoder: Encoder) throws {
+        try super.encode(to: encoder)
+        /*var container = encoder.container(keyedBy: JankenCodingKeys.self)
+        try container.encodeIfPresent(Opponent, forKey: JankenCodingKeys.Opponent)
+        try container.encodeIfPresent(ForceWin, forKey: JankenCodingKeys.ForceWin)*/
+    }
+    
+    open override func toScriptHeader(index: Int, strings: [String : String], indexMap: [Int : String]) -> String {
+        var scriptLine: String = super.toScriptHeader(index: index, strings: strings, indexMap: indexMap)
+        
+        /*if (Opponent != nil) {
+            scriptLine += ", Opponent: \(Opponent!)"
+        }
+        
+        if (ForceWin != nil) {
+            scriptLine += ", ForceWin: " + ((ForceWin! == true) ? "True" : "False")
+        }*/
+        
+        return scriptLine
+    }
+    
+    open override func toScriptLines(index: Int, strings: [String : String], indexMap: [Int : String]) -> [String] {
+        var lines: [String] = []
+        
+        /*lines.append(contentsOf: super.toScriptLines(index: index, strings: strings, indexMap: indexMap))
+        
+        if (Opponent != nil) {
+            lines.append("Opponent: " + strings[Opponent!]!)
+        }*/
+        
+        return lines
+    }
+}

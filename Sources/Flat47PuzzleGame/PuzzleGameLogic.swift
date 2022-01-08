@@ -22,3 +22,7 @@ public func RegisterPuzzleGameScenes(gameLogic: GameLogic) {
 	gameLogic.sceneTypes["TV"] = TVLogic.newScene(gameLogic: gameLogic)
 	gameLogic.sceneTypes["ZenPuzzle"] = ZenPuzzleLogic.newScene(gameLogic: gameLogic)
 }
+
+public func RegisterPuzzleGameSceneInitialisers(sceneListSerialiser: inout SceneListSerialiser) {
+    sceneListSerialiser.serialisers.append(PuzzleGameSceneSerialiser())
+}
