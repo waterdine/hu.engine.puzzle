@@ -350,7 +350,7 @@ open class TVScene: PuzzleScene {
     }
     
     open override func toScriptHeader(index: Int, strings: [String : String], indexMap: [Int : String]) -> String {
-        var scriptLine: String = super.toScriptHeader(index: index, strings: strings, indexMap: indexMap)
+        let scriptLine: String = super.toScriptHeader(index: index, strings: strings, indexMap: indexMap)
         
         /*if (Opponent != nil) {
             scriptLine += ", Opponent: \(Opponent!)"
@@ -364,7 +364,7 @@ open class TVScene: PuzzleScene {
     }
     
     open override func toScriptLines(index: Int, strings: [String : String], indexMap: [Int : String]) -> [String] {
-        var lines: [String] = []
+        let lines: [String] = []
         
         /*lines.append(contentsOf: super.toScriptLines(index: index, strings: strings, indexMap: indexMap))
         
