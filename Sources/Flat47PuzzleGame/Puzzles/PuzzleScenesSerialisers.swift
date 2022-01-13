@@ -155,11 +155,12 @@ class PuzzleGameSceneSerialiser: BaseSceneSerialiser {
                     }
                 }
                 break
-            default: break
+            default:
+                break
             }
-        //} else if (textBucket == "Solved") {
-        //    let lineString = "solved_line_\(lineIndex)"
-        //    let lineReference = chapter + "_" + scene + "_" + lineString
+        } else if (textBucket == "Solved") {
+            let lineString = "solved_line_\(lineIndex)"
+            let lineReference = chapter + "_" + scene + "_" + lineString
             switch scene.Scene {
             case "ZenPuzzle":
                 if (!command) {
@@ -171,7 +172,8 @@ class PuzzleGameSceneSerialiser: BaseSceneSerialiser {
                 }
                 (scene as! ZenPuzzleScene).SolvedText!.append(line)
                 break
-            default: break
+            default:
+                break
             }
         }
     }
@@ -220,7 +222,8 @@ class PuzzleGameSceneSerialiser: BaseSceneSerialiser {
                 (scene as! DatePuzzleScene).SkipTo = indexMap[(scene as! DatePuzzleScene).SkipTo]!
             }
             break
-        default: break
+        default:
+            break
         }
     }
 }
