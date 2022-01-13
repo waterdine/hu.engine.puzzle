@@ -160,7 +160,7 @@ class PuzzleGameSceneSerialiser: BaseSceneSerialiser {
             }
         } else if (textBucket == "Solved") {
             let lineString = "solved_line_\(lineIndex)"
-            let lineReference = chapter + "_" + scene + "_" + lineString
+            let lineReference = chapterNumber + "_" + sceneNumber + "_" + lineString
             switch scene.Scene {
             case "ZenPuzzle":
                 if (!command) {
