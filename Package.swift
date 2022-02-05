@@ -13,7 +13,7 @@ let package = Package(
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
-        .package(name: "虎.engine.base", path: "../虎.engine.base"),
+        .package(url: "https://waterdine@bitbucket.org/waterdine/hu-.engine.base.git", .branch("main")),
     ],
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
