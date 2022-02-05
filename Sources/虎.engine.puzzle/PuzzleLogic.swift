@@ -8,7 +8,7 @@
 import Foundation
 
 import SpriteKit
-import Flat47Game
+import 虎_engine_base
 
 enum EncAnimStage {
 	case LiftingUp, FadingOut, Magic, FadingIn, DropingDown, Stamping, Hiding

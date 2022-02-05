@@ -1,12 +1,12 @@
 import XCTest
-@testable import Flat47PuzzleGame
+@testable import 虎_engine_puzzle
 
-final class Flat47PuzzleGameTests: XCTestCase {
+final class 虎_engine_puzzle_tests: XCTestCase {
     func testExample() {
         // This is an example of a functional test case.
         // Use XCTAssert and related functions to verify your tests produce the correct
         // results.
-        XCTAssertEqual(Flat47PuzzleGame().text, "Hello, World!")
+        XCTAssertEqual(虎_engine_puzzle().text, "Hello, World!")
     }
 
     static var allTests = [

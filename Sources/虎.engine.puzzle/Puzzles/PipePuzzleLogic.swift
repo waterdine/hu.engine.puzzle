@@ -6,7 +6,7 @@
 //
 
 import SpriteKit
-import Flat47Game
+import 虎_engine_base
 
 @available(OSX 10.13, *)
 @available(iOS 9.0, *)

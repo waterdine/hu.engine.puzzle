@@ -1,7 +1,7 @@
 import XCTest
 
-import Flat47PuzzleGameTests
+import 虎_engine_puzzle_tests
 
 var tests = [XCTestCaseEntry]()
-tests += Flat47PuzzleGameTests.allTests()
+tests += 虎_engine_puzzle_tests.allTests()
 XCTMain(tests)

@@ -6,7 +6,7 @@
 //
 
 import SpriteKit
-import Flat47Game
+import 虎_engine_base
 
 enum JankenChoice {
 	case Rock, Paper, Scissors

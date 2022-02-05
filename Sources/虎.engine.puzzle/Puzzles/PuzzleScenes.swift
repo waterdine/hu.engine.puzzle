@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import Flat47Game
+import 虎_engine_base
 
 open class PuzzleScene: VisualScene {
     public var Text: [TextLine]? = nil

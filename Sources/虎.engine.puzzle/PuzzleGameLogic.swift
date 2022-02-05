@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import Flat47Game
+import 虎_engine_base
 
 // This is a free function because OOP sucks monkey ass and I am not perpetuating that BS any longer ^_^/
 // Do not use OOP, unless you have to use OOP
