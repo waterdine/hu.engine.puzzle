@@ -20,7 +20,7 @@ let package = Package(
         // Targets can depend on other targets in this package, and on products in packages this package depends on.
         .target(
             name: "虎.engine.puzzle",
-            dependencies: ["虎.engine.base"]),
+            dependencies: [.product(name: "虎.engine.base", package: "hu-.engine.base")]),
         .testTarget(
             name: "虎.engine.puzzle.tests",
             dependencies: ["虎.engine.puzzle"]),
