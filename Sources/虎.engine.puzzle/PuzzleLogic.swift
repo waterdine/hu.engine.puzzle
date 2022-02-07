@@ -2,7 +2,7 @@
 //  PuzzleLogic.swift
 //  TheAmericat iOS
 //
-//  Created by A. A. Bills on 25/03/2021.
+//  Created by ito.antonia on 25/03/2021.
 //
 
 import Foundation
