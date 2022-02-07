@@ -150,9 +150,10 @@ class PuzzleGameSceneSerialiser: BaseSceneSerialiser {
                 } else {
                     strings[lineReference] = String(text)
                     line.textString = lineReference
-                    if ((scene as! DatePuzzleScene).Text != nil) {
-                        (scene as! DatePuzzleScene).Text!.append(line)
+                    if ((scene as! DatePuzzleScene).Text == nil) {
+                        (scene as! DatePuzzleScene).Text = []
                     }
+                    (scene as! DatePuzzleScene).Text!.append(line)
                 }
                 break
             default:
