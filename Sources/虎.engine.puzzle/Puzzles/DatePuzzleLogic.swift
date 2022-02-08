@@ -58,7 +58,7 @@ class DatePuzzleLogic: GameScene {
 		flowerNode?.isHidden = true
 		puzzleGridNode = self.childNode(withName: "//PuzzleGrid")
         
-        let sayAnswer = Bundle.main.localizedString(forKey: "Check answer.", value: nil, table: "Story")
+        let sayAnswer = gameLogic!.localizedString(forKey: "Check answer.", value: nil, table: "Story")
         let answerLabel = self.childNode(withName: "//Choice2Label") as? SKLabelNode
         answerLabel?.text = sayAnswer
         
@@ -98,7 +98,7 @@ class DatePuzzleLogic: GameScene {
 		selectedPetalNode = nil
 		
 		let questionLabel = self.childNode(withName: "//QuestionLabel") as? SKLabelNode
-        questionLabel!.text = Bundle.main.localizedString(forKey: (data as! DatePuzzleScene).Question, value: nil, table:  self.gameLogic!.getChapterTable())
+        questionLabel!.text = gameLogic!.localizedString(forKey: (data as! DatePuzzleScene).Question, value: nil, table:  self.gameLogic!.getChapterTable())
 		
 		let textLabel = self.childNode(withName: "//TextLabel") as? SKLabelNode
 		textLabel!.text = ""
@@ -359,7 +359,7 @@ class DatePuzzleLogic: GameScene {
 	
 	func checkPuzleCompleted() {
 		let selectedDate: String = String.init(format: "%d%d%d%d", puzzleGrid[0], puzzleGrid[1], puzzleGrid[2], puzzleGrid[3])
-        let expectedDate: String = Bundle.main.localizedString(forKey: (data as! DatePuzzleScene).Answer, value: nil, table:  self.gameLogic!.getChapterTable())
+        let expectedDate: String = gameLogic!.localizedString(forKey: (data as! DatePuzzleScene).Answer, value: nil, table:  self.gameLogic!.getChapterTable())
 		if (selectedDate == expectedDate)
 		{
             let skipToScene = (data as! DatePuzzleScene).SkipTo
@@ -387,7 +387,7 @@ class DatePuzzleLogic: GameScene {
         textList = (data as! DatePuzzleScene).Text
 		
 		if (textList != nil && textList!.count > self.currentTextIndex) {
-            textLabel?.text = Bundle.main.localizedString(forKey: textList![self.currentTextIndex].textString, value: nil, table:  self.gameLogic!.getChapterTable())
+            textLabel?.text = gameLogic!.localizedString(forKey: textList![self.currentTextIndex].textString, value: nil, table:  self.gameLogic!.getChapterTable())
 		}
 		// fade text in
 	}
