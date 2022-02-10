@@ -363,7 +363,7 @@ class DatePuzzleLogic: GameScene {
 		if (selectedDate == expectedDate)
 		{
             let skipToScene = (data as! DatePuzzleScene).SkipTo
-			self.gameLogic?.setScene(index: skipToScene)
+            self.gameLogic?.setScene(sceneIndex: skipToScene, chapterIndex: self.gameLogic?.currentChapterIndex!)
 		} else {
 			self.gameLogic?.nextScene()
 		}
