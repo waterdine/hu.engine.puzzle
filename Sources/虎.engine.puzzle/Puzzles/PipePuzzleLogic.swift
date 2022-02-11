@@ -22,7 +22,7 @@ class PipePuzzleLogic: PuzzleLogic {
 	var curveTexture: SKTexture?
 	
 	class func newScene(gameLogic: GameLogic) -> PipePuzzleLogic {
-		guard let scene = PipePuzzleLogic(fileNamed: "PipePuzzle" + gameLogic.getAspectSuffix()) else {
+		guard let scene = PipePuzzleLogic(fileNamed: gameLogic.loadUrl(forResource: gameLogic.appendAspectSuffix(scene: "Default.PipePuzzle"), withExtension: ".sks", subdirectory: "Scenes/" + gameLogic.getAspectSuffix())!.path) else {
 			print("Failed to load PipePuzzle.sks")
 			return PipePuzzleLogic()
 		}
