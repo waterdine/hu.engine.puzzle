@@ -17,7 +17,7 @@ class SearchPuzzleLogic: PuzzleLogic {
 	var handledPress: Bool = true
 	
 	class func newScene(gameLogic: GameLogic) -> SearchPuzzleLogic {
-		guard let scene = SearchPuzzleLogic(fileNamed: "SearchPuzzle" + gameLogic.getAspectSuffix()) else {
+		guard let scene = SearchPuzzleLogic(fileNamed: gameLogic.loadUrl(forResource: "Default.SearchPuzzle" + gameLogic.getAspectSuffix(), withExtension: ".sks", subdirectory: "Scenes/" + gameLogic.getAspectSuffix())!.path) else {
 			print("Failed to load SearchPuzzle.sks")
 			return SearchPuzzleLogic()
 		}

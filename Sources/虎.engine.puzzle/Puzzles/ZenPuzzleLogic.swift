@@ -58,7 +58,7 @@ class ZenPuzzleLogic: GameScene {
 	var animatingBG: Bool = false
 	
 	class func newScene(gameLogic: GameLogic) -> ZenPuzzleLogic {
-		guard let scene = ZenPuzzleLogic(fileNamed: "ZenPuzzle" + gameLogic.getAspectSuffix()) else {
+		guard let scene = ZenPuzzleLogic(fileNamed: gameLogic.loadUrl(forResource: "Default.ZenPuzzle" + gameLogic.getAspectSuffix(), withExtension: ".sks", subdirectory: "Scenes/" + gameLogic.getAspectSuffix())!.path) else {
 			print("Failed to load ZenPuzzle.sks")
 			abort()
 		}
