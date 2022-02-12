@@ -17,13 +17,11 @@ class SearchPuzzleLogic: PuzzleLogic {
 	var handledPress: Bool = true
 	
 	class func newScene(gameLogic: GameLogic) -> SearchPuzzleLogic {
-		guard let scene = SearchPuzzleLogic(fileNamed: gameLogic.loadUrl(forResource: gameLogic.appendAspectSuffix(scene: "Default.SearchPuzzle"), withExtension: ".sks", subdirectory: "Scenes/" + gameLogic.getAspectSuffix())!.path) else {
-			print("Failed to load SearchPuzzle.sks")
-			return SearchPuzzleLogic()
-		}
+        guard let scene = try! gameLogic.loadScene(scene: "Default.SearchPuzzle", classType: SearchPuzzleLogic.classForKeyedUnarchiver()) as? SearchPuzzleLogic else {
+            print("Failed to load SearchPuzzle.sks")
+            return SearchPuzzleLogic()
+        }
 
-		scene.scaleMode = gameLogic.getScaleMode()
-		scene.gameLogic = gameLogic
 		scene.puzzleComplete = false
 		
 		return scene

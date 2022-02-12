@@ -32,13 +32,11 @@ class DatePuzzleLogic: GameScene {
 	var currentTextIndex: Int = 0
 	
 	class func newScene(gameLogic: GameLogic) -> DatePuzzleLogic {
-		guard let scene = DatePuzzleLogic(fileNamed: gameLogic.loadUrl(forResource: gameLogic.appendAspectSuffix(scene: "Default.DatePuzzle"), withExtension: ".sks", subdirectory: "Scenes/" + gameLogic.getAspectSuffix())!.path) else {
-			print("Failed to load DatePuzzle.sks")
-			abort()
-		}
+        guard let scene = try! gameLogic.loadScene(scene: "Default.DatePuzzle", classType: DatePuzzleLogic.classForKeyedUnarchiver()) as? DatePuzzleLogic else {
+            print("Failed to load DatePuzzle.sks")
+            return DatePuzzleLogic()
+        }
 
-		scene.scaleMode = gameLogic.getScaleMode()
-		scene.gameLogic = gameLogic
 		scene.requiresMusic = true
 		let BGTextCover = scene.childNode(withName: "//BGTextCover")
 		scene.removeChildren(in: [BGTextCover!])

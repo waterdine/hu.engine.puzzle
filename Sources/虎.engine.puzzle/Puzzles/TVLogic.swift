@@ -21,13 +21,11 @@ class TVLogic: PuzzleLogic {
 	var channelIndex: Int = 1
 	
 	class func newScene(gameLogic: GameLogic) -> TVLogic {
-		guard let scene = TVLogic(fileNamed: gameLogic.loadUrl(forResource: gameLogic.appendAspectSuffix(scene: "Default.TV"), withExtension: ".sks", subdirectory: "Scenes/" + gameLogic.getAspectSuffix())!.path) else {
-			print("Failed to load TV.sks")
-			return TVLogic()
-		}
+        guard let scene = try! gameLogic.loadScene(scene: "Default.TV", classType: TVLogic.classForKeyedUnarchiver()) as? TVLogic else {
+            print("Failed to load TV.sks")
+            return TVLogic()
+        }
 
-		scene.scaleMode = gameLogic.getScaleMode()
-		scene.gameLogic = gameLogic
 		scene.puzzleComplete = false
 		
 		return scene

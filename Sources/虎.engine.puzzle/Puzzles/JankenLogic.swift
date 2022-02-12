@@ -37,13 +37,11 @@ class JankenLogic: PuzzleLogic {
 	var animatingRound: RoundAnimationState = .Finished
 	
 	class func newScene(gameLogic: GameLogic) -> JankenLogic {
-		guard let scene = JankenLogic(fileNamed: gameLogic.loadUrl(forResource: gameLogic.appendAspectSuffix(scene: "Default.Janken"), withExtension: ".sks", subdirectory: "Scenes/" + gameLogic.getAspectSuffix())!.path) else {
+		guard let scene = try! gameLogic.loadScene(scene: "Default.Janken", classType: JankenLogic.classForKeyedUnarchiver()) as? JankenLogic else {
 			print("Failed to load Janken.sks")
 			return JankenLogic()
 		}
 
-		scene.scaleMode = gameLogic.getScaleMode()
-		scene.gameLogic = gameLogic
 		scene.puzzleComplete = false
 		return scene
 	}
