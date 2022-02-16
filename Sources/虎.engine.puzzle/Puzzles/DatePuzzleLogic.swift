@@ -32,7 +32,7 @@ class DatePuzzleLogic: GameScene {
 	var currentTextIndex: Int = 0
 	
 	class func newScene(gameLogic: GameLogic) -> DatePuzzleLogic {
-        guard let scene = try! gameLogic.loadScene(scene: "Default.DatePuzzle", classType: DatePuzzleLogic.classForKeyedUnarchiver()) as? DatePuzzleLogic else {
+        guard let scene = gameLogic.loadScene(scene: "Default.DatePuzzle", classType: DatePuzzleLogic.classForKeyedUnarchiver()) as? DatePuzzleLogic else {
             print("Failed to load DatePuzzle.sks")
             return DatePuzzleLogic()
         }

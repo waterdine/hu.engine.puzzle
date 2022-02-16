@@ -22,7 +22,7 @@ class PipePuzzleLogic: PuzzleLogic {
 	var curveTexture: SKTexture?
 	
 	class func newScene(gameLogic: GameLogic) -> PipePuzzleLogic {
-        guard let scene = try! gameLogic.loadScene(scene: "Default.PipePuzzle", classType: PipePuzzleLogic.classForKeyedUnarchiver()) as? PipePuzzleLogic else {
+        guard let scene = gameLogic.loadScene(scene: "Default.PipePuzzle", classType: PipePuzzleLogic.classForKeyedUnarchiver()) as? PipePuzzleLogic else {
 			print("Failed to load PipePuzzle.sks")
 			return PipePuzzleLogic()
 		}
@@ -49,12 +49,12 @@ class PipePuzzleLogic: PuzzleLogic {
 		super.didMove(to: view)
 		puzzleGridNode = self.childNode(withName: "//PuzzleGrid")
 		
-		var imagePath = Bundle.main.path(forResource: "PipeStraight", ofType: ".png")
-		straightTexture = SKTexture(imageNamed: imagePath!)
-		imagePath = Bundle.main.path(forResource: "PipeCurved", ofType: ".png")
-		curveTexture = SKTexture(imageNamed: imagePath!)
+        var imageUrl = gameLogic?.loadUrl(forResource: "Default.PipeStraight", withExtension: ".png", subdirectory: "Images")
+        straightTexture = SKTexture(imageNamed: imageUrl!.path)
+		imageUrl = gameLogic?.loadUrl(forResource: "Default.PipeCurved", withExtension: ".png", subdirectory: "Images")
+		curveTexture = SKTexture(imageNamed: imageUrl!.path)
 		
-		let layoutListPlist = NSDictionary(contentsOfFile: Bundle.main.path(forResource: "PipePuzzles", ofType: "plist")!)
+        let layoutListPlist = NSDictionary(contentsOfFile: (gameLogic?.loadUrl(forResource: "Default.PipePuzzles", withExtension: "plist", subdirectory: "Puzzles")!.path)!)
 		let layoutList: NSArray? = layoutListPlist?["Layouts"] as? NSArray
 		assert(layoutList!.count > 0)
 		let chosenLayoutIndex = Int.random(in: 0...layoutList!.count - 1)

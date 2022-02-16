@@ -58,7 +58,7 @@ class ZenPuzzleLogic: GameScene {
 	var animatingBG: Bool = false
 	
 	class func newScene(gameLogic: GameLogic) -> ZenPuzzleLogic {
-        guard let scene = try! gameLogic.loadScene(scene: "Default.ZenPuzzle", classType: ZenPuzzleLogic.classForKeyedUnarchiver()) as? ZenPuzzleLogic else {
+        guard let scene = gameLogic.loadScene(scene: "Default.ZenPuzzle", classType: ZenPuzzleLogic.classForKeyedUnarchiver()) as? ZenPuzzleLogic else {
             print("Failed to load ZenPuzzle.sks")
             return ZenPuzzleLogic()
         }
@@ -92,8 +92,8 @@ class ZenPuzzleLogic: GameScene {
 		flowerNode = self.childNode(withName: "//SelectionFlower")
 		flowerNode?.isHidden = true
 		puzzleGridNode = self.childNode(withName: "//PuzzleGrid")
-		
-		let squareListPlist = NSDictionary(contentsOfFile: Bundle.main.path(forResource: "MagicSquares", ofType: "plist")!)
+        
+        let squareListPlist = NSDictionary(contentsOfFile: (gameLogic?.loadUrl(forResource: "Default.MagicSquares", withExtension: "plist", subdirectory: "Puzzles")!.path)!)
 		let squareList: NSArray? = squareListPlist?["Squares"] as? NSArray
 		assert(squareList!.count > 50)
 		var chosenSquareIndex = Int.random(in: 0...squareList!.count - 1)

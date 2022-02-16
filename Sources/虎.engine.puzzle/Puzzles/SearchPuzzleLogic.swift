@@ -17,7 +17,7 @@ class SearchPuzzleLogic: PuzzleLogic {
 	var handledPress: Bool = true
 	
 	class func newScene(gameLogic: GameLogic) -> SearchPuzzleLogic {
-        guard let scene = try! gameLogic.loadScene(scene: "Default.SearchPuzzle", classType: SearchPuzzleLogic.classForKeyedUnarchiver()) as? SearchPuzzleLogic else {
+        guard let scene = gameLogic.loadScene(scene: "Default.SearchPuzzle", classType: SearchPuzzleLogic.classForKeyedUnarchiver()) as? SearchPuzzleLogic else {
             print("Failed to load SearchPuzzle.sks")
             return SearchPuzzleLogic()
         }
@@ -32,10 +32,10 @@ class SearchPuzzleLogic: PuzzleLogic {
 		let puzzleImage = self.childNode(withName: "//PuzzleImage") as! SKSpriteNode
 		
 		let image: String = ""//self.data?["Image"] as! String
-		let imagePath = Bundle.main.path(forResource: image, ofType: ".png")
-		if (imagePath != nil) {
+        let imageUrl = gameLogic?.loadUrl(forResource: image, withExtension: ".png", subdirectory: "Images/Backgrounds")
+		if (imageUrl != nil) {
 			puzzleImage.isHidden = false
-			puzzleImage.texture = SKTexture(imageNamed: imagePath!)
+            puzzleImage.texture = SKTexture(imageNamed: imageUrl!.path)
 		} else {
 			puzzleImage.isHidden = true
 		}
