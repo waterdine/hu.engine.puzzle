@@ -355,7 +355,7 @@ class PuzzleLogic: GameScene {
 				case .Stamping:
 					let seal = self.childNode(withName: "//Seal") as? SKSpriteNode
 					if (stampSeal) {
-						seal?.run(SKAction.init(named: "Stamp")!)
+                        seal?.run((gameLogic?.loadAction(actionName: "Stamp", forResource: "Default.MyActions"))!)
 						seal?.isHidden = false
 						seal?.position = CGPoint(x: (stickyTextLabel?.frame.maxX)! - 20.0, y: (stickyTextLabel?.frame.minY)! + 20.0)
 						stampSeal = false
