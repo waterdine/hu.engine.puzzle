@@ -118,16 +118,16 @@ class PuzzleGameSceneSerialiser: BaseSceneSerialiser {
         }
     }
     
-    open override func appendText(scene: BaseScene, text: String, textBucket: String, chapterNumber: String, sceneNumber: String, lineIndex: Int, strings: inout [String : String], command: Bool, sceneLabelMap: inout [String : Int]) {
+    open override func appendText(scene: BaseScene, text: String, textBucket: String, scriptNumber: String, sceneNumber: String, lineIndex: Int, strings: inout [String : String], command: Bool, sceneLabelMap: inout [String : Int]) {
         let line: TextLine = TextLine()
         line.textString = text
         if (textBucket.isEmpty) {
             let lineString = "line_\(lineIndex)"
-            let lineReference = chapterNumber + "_" + sceneNumber + "_" + lineString
+            let lineReference = scriptNumber + "_" + sceneNumber + "_" + lineString
             switch scene.Scene {
             case "ZenPuzzle":
                 if (text.starts(with: "Question")) {
-                    (scene as! ZenPuzzleScene).Question = chapterNumber + "_" + sceneNumber + "_question"
+                    (scene as! ZenPuzzleScene).Question = scriptNumber + "_" + sceneNumber + "_question"
                     strings[(scene as! ZenPuzzleScene).Question!] = text.replacingOccurrences(of: "Question: ", with: "")
                 } else {
                     if (!command) {
@@ -142,10 +142,10 @@ class PuzzleGameSceneSerialiser: BaseSceneSerialiser {
                 break
             case "DatePuzzle":
                 if (text.starts(with: "Question")) {
-                    (scene as! DatePuzzleScene).Question = chapterNumber + "_" + sceneNumber + "_question"
+                    (scene as! DatePuzzleScene).Question = scriptNumber + "_" + sceneNumber + "_question"
                     strings[(scene as! DatePuzzleScene).Question] = text.replacingOccurrences(of: "Question: ", with: "")
                 } else if (text.starts(with: "Answer")) {
-                    (scene as! DatePuzzleScene).Answer = chapterNumber + "_" + sceneNumber + "_answer"
+                    (scene as! DatePuzzleScene).Answer = scriptNumber + "_" + sceneNumber + "_answer"
                     strings[(scene as! DatePuzzleScene).Answer] = text.replacingOccurrences(of: "Answer: ", with: "")
                 } else {
                     strings[lineReference] = String(text)
@@ -161,7 +161,7 @@ class PuzzleGameSceneSerialiser: BaseSceneSerialiser {
             }
         } else if (textBucket == "Solved") {
             let lineString = "solved_line_\(lineIndex)"
-            let lineReference = chapterNumber + "_" + sceneNumber + "_" + lineString
+            let lineReference = scriptNumber + "_" + sceneNumber + "_" + lineString
             switch scene.Scene {
             case "ZenPuzzle":
                 if (!command) {
