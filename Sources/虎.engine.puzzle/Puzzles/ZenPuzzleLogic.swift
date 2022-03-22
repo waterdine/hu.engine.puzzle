@@ -53,7 +53,7 @@ class ZenPuzzleLogic: GameScene {
 	var encrypting: Bool = false
 	var nextEncAnim: Double = 0.0
 	var encAnimStage: EncAnimStage = EncAnimStage.LiftingUp
-	var encodeTextList: [Character] = ["月","火","日","土","金","水","木","犬","猫","虎","竜"]
+    var encodeTextList: [Swift.Character] = ["月","火","日","土","金","水","木","犬","猫","虎","竜"]
 	var cachedPosition: CGPoint = CGPoint()
 	var animatingBG: Bool = false
 	
