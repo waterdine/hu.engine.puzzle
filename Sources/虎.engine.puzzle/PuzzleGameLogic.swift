@@ -26,3 +26,8 @@ public func RegisterPuzzleGameScenes(gameLogic: GameLogic) {
 public func RegisterPuzzleGameSceneInitialisers(sceneListSerialiser: inout SceneListSerialiser) {
     sceneListSerialiser.serialisers.append(PuzzleGameSceneSerialiser())
 }
+
+public func RegisterPuzzleGameSettings(settings: inout [String])
+{
+    settings.append("EncodeFontScale");
+}
