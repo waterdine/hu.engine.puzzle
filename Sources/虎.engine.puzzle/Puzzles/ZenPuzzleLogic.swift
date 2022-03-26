@@ -93,7 +93,7 @@ class ZenPuzzleLogic: GameScene {
 		flowerNode?.isHidden = true
 		puzzleGridNode = self.childNode(withName: "//PuzzleGrid")
         
-        let squareListPlist = NSDictionary(contentsOfFile: (gameLogic?.loadUrl(forResource: "Default.MagicSquares", withExtension: "plist", subdirectory: "Puzzles")!.path)!)
+        let squareListPlist = NSDictionary(contentsOfFile: (gameLogic?.loadUrl(forResource: "Puzzles.MagicSquares", withExtension: "plist", subdirectory: "")!.path)!)
 		let squareList: NSArray? = squareListPlist?["Squares"] as? NSArray
 		assert(squareList!.count > 50)
 		var chosenSquareIndex = Int.random(in: 0...squareList!.count - 1)
