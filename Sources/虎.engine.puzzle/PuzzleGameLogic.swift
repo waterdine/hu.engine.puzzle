@@ -9,8 +9,8 @@ import Foundation
 import 虎_engine_base
 
 // This is a free function because OOP is more difficult to keep data structures and logic separate. ^_^/
-// Do not use OOP, unless you have to use OOP
-// If you have to use OOP, do not meet in groups larger than 6.
+// Do not use OOP, unless you have to use OOP.
+// If you have to use OOP, do not use it in groups larger than 6.
 @available(OSX 10.13, *)
 @available(iOS 9.0, *)
 public func RegisterPuzzleGameScenes(gameLogic: GameLogic) {
