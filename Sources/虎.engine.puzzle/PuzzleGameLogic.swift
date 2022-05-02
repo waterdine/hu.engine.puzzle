@@ -25,6 +25,10 @@ public func RegisterPuzzleGameSceneInitialisers(sceneListSerialiser: inout Scene
     sceneListSerialiser.serialisers.append(PuzzleGameSceneSerialiser())
 }
 
+public func LoadPuzzleGameModuleResourceBundle(bundles: inout [String:Bundle]) {
+    bundles["虎.engine.puzzle"] = Bundle.init(url: Bundle.main.resourceURL!.appendingPathComponent("虎.engine.puzzle_虎.engine.puzzle.bundle"))!
+}
+
 public func RegisterPuzzleGameSettings(settings: inout [String])
 {
     settings.append("EncodeFontScale");

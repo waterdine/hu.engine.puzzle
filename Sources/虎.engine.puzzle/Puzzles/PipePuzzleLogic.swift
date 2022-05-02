@@ -22,7 +22,7 @@ class PipePuzzleLogic: PuzzleLogic {
 	var curveTexture: SKTexture?
 	
 	class func newScene(gameLogic: GameLogic) -> PipePuzzleLogic {
-        guard let scene = gameLogic.loadScene(scene: "Default.PipePuzzle", classType: PipePuzzleLogic.classForKeyedUnarchiver()) as? PipePuzzleLogic else {
+        guard let scene = gameLogic.loadScene(scene: "Default.PipePuzzle", resourceBundle: "虎.engine.puzzle", classType: PipePuzzleLogic.classForKeyedUnarchiver()) as? PipePuzzleLogic else {
 			print("Failed to load PipePuzzle.sks")
 			return PipePuzzleLogic()
 		}

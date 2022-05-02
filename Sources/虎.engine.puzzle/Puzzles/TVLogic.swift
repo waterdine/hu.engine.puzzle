@@ -21,7 +21,7 @@ class TVLogic: PuzzleLogic {
 	var channelIndex: Int = 1
 	
 	class func newScene(gameLogic: GameLogic) -> TVLogic {
-        guard let scene = gameLogic.loadScene(scene: "Default.TV", classType: TVLogic.classForKeyedUnarchiver()) as? TVLogic else {
+        guard let scene = gameLogic.loadScene(scene: "Default.TV", resourceBundle: "虎.engine.puzzle", classType: TVLogic.classForKeyedUnarchiver()) as? TVLogic else {
             print("Failed to load TV.sks")
             return TVLogic()
         }

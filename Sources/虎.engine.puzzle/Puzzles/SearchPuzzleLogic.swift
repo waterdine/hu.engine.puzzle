@@ -17,7 +17,7 @@ class SearchPuzzleLogic: PuzzleLogic {
 	var handledPress: Bool = true
 	
 	class func newScene(gameLogic: GameLogic) -> SearchPuzzleLogic {
-        guard let scene = gameLogic.loadScene(scene: "Default.SearchPuzzle", classType: SearchPuzzleLogic.classForKeyedUnarchiver()) as? SearchPuzzleLogic else {
+        guard let scene = gameLogic.loadScene(scene: "Default.SearchPuzzle", resourceBundle: "虎.engine.puzzle", classType: SearchPuzzleLogic.classForKeyedUnarchiver()) as? SearchPuzzleLogic else {
             print("Failed to load SearchPuzzle.sks")
             return SearchPuzzleLogic()
         }

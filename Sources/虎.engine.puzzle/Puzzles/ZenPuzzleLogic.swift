@@ -58,7 +58,7 @@ class ZenPuzzleLogic: GameScene {
 	var animatingBG: Bool = false
 	
 	class func newScene(gameLogic: GameLogic) -> ZenPuzzleLogic {
-        guard let scene = gameLogic.loadScene(scene: "Default.ZenPuzzle", classType: ZenPuzzleLogic.classForKeyedUnarchiver()) as? ZenPuzzleLogic else {
+        guard let scene = gameLogic.loadScene(scene: "Default.ZenPuzzle", resourceBundle: "虎.engine.puzzle", classType: ZenPuzzleLogic.classForKeyedUnarchiver()) as? ZenPuzzleLogic else {
             print("Failed to load ZenPuzzle.sks")
             return ZenPuzzleLogic()
         }
