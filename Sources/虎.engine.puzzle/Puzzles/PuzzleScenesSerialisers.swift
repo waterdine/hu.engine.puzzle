@@ -185,8 +185,10 @@ class PuzzleGameSceneSerialiser: BaseSceneSerialiser {
             case "DatePuzzle":
                 lines.append(contentsOf: (scene as! DatePuzzleScene).toStringsLines(index: index, strings: strings))
                 for textLine in (scene as! DatePuzzleScene).Text ?? [] {
-                    if (!textLine.textString.starts(with: "[") && !textLine.textString.isEmpty) {
-                        lines.append("\"" + textLine.textString + "\" = \"" + strings[textLine.textString]!.replacingOccurrences(of: "\"", with: "\\\"") + "\";")
+                    if let textString = textLine.textString {
+                        if (!textString.starts(with: "[") && !textString.isEmpty) {
+                            lines.append("\"\(textString)\" = \"" + (strings[textString] ?? textString).replacingOccurrences(of: "\"", with: "\\\"") + "\";")
+                        }
                     }
                 }
                 lines.append("\"" + (scene as! DatePuzzleScene).Question + "\" = \"" + strings[(scene as! DatePuzzleScene).Question]! + "\";")
@@ -196,16 +198,20 @@ class PuzzleGameSceneSerialiser: BaseSceneSerialiser {
                 lines.append(contentsOf: (scene as! ZenPuzzleScene).toStringsLines(index: index, strings: strings))
                 if ((scene as! ZenPuzzleScene).Text != nil) {
                     for textLine in (scene as! ZenPuzzleScene).Text! {
-                        if (!textLine.textString.starts(with: "[") && !textLine.textString.isEmpty) {
-                            lines.append("\"" + textLine.textString + "\" = \"" + strings[textLine.textString]!.replacingOccurrences(of: "\"", with: "\\\"") + "\";")
+                        if let textString = textLine.textString {
+                            if (!textString.starts(with: "[") && !textString.isEmpty) {
+                                lines.append("\"\(textString)\" = \"" + (strings[textString] ?? textString).replacingOccurrences(of: "\"", with: "\\\"") + "\";")
+                            }
                         }
                     }
                 }
                 if ((scene as! ZenPuzzleScene).SolvedText != nil) {
                     lines.append("// Solved Text")
                     for textLine in (scene as! ZenPuzzleScene).SolvedText! {
-                        if (!textLine.textString.starts(with: "[") && !textLine.textString.isEmpty) {
-                            lines.append("\"" + textLine.textString + "\" = \"" + strings[textLine.textString]!.replacingOccurrences(of: "\"", with: "\\\"") + "\";")
+                        if let textString = textLine.textString {
+                            if (!textString.starts(with: "[") && !textString.isEmpty) {
+                                lines.append("\"\(textString)\" = \"" + (strings[textString] ?? textString).replacingOccurrences(of: "\"", with: "\\\"") + "\";")
+                            }
                         }
                     }
                 }

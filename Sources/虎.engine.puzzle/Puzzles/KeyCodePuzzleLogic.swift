@@ -385,7 +385,7 @@ class DatePuzzleLogic: GameScene {
         textList = (data as! DatePuzzleScene).Text
 		
 		if (textList != nil && textList!.count > self.currentTextIndex) {
-            textLabel?.text = gameLogic!.localizedString(forKey: textList![self.currentTextIndex].textString, value: nil, table:  self.gameLogic!.getChapterTable())
+            textLabel?.text = gameLogic!.localizedString(forKey: textList![self.currentTextIndex].textString ?? "", value: nil, table:  self.gameLogic!.getChapterTable())
 		}
 		// fade text in
 	}

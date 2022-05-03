@@ -46,10 +46,12 @@ open class PuzzleScene: VisualScene {
                 
         if (Text != nil) {
             for textLine in Text! {
-                if (textLine.textString.starts(with: "[") || textLine.textString.isEmpty) {
-                    lines.append(textLine.textString)
-                } else {
-                    lines.append(strings[textLine.textString]!)
+                if let textString = textLine.textString {
+                    if (textString.starts(with: "[") || textString.isEmpty) {
+                        lines.append(textString)
+                    } else {
+                        lines.append(strings[textString] ?? textString)
+                    }
                 }
             }
         }
@@ -58,10 +60,12 @@ open class PuzzleScene: VisualScene {
             lines.append("// Solved Text")
             
             for textLine in SolvedText! {
-                if (textLine.textString.starts(with: "[") || textLine.textString.isEmpty) {
-                    lines.append(textLine.textString)
-                } else {
-                    lines.append(strings[textLine.textString]!)
+                if let textString = textLine.textString {
+                    if (textString.starts(with: "[") || textString.isEmpty) {
+                        lines.append(textString)
+                    } else {
+                        lines.append(strings[textString] ?? textString)
+                    }
                 }
             }
         }
