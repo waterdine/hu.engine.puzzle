@@ -190,7 +190,7 @@ class ZenPuzzleLogic: GameScene {
 		stickyText = false
 		fixedText = ""
 		newText = ""
-        if #available(iOS 11.0, *) {
+        if #available(iOS 11.0, tvOS 11.0, *) {
             stickyTextLabel?.attributedText =  NSAttributedString()
         } else {
             // Fallback on earlier versions
@@ -466,7 +466,7 @@ class ZenPuzzleLogic: GameScene {
 					}
 				}
 				
-                if #available(iOS 11.0, *) {
+                if #available(iOS 11.0, tvOS 11.0, *) {
                     textLabel?.attributedText = string
                 } else {
                     // Fallback on earlier versions
@@ -511,7 +511,7 @@ class ZenPuzzleLogic: GameScene {
 				let totalOffset: CGFloat = 10.0
 				switch encAnimStage {
 				case .LiftingUp:
-                    if #available(iOS 11.0, *) {
+                    if #available(iOS 11.0, tvOS 11.0, *) {
                         var offset: CGFloat = CGFloat(fadingCharacterAlpha) * totalOffset
                         if (deltaFadeTime >= 1) {
                             offset = CGFloat(1.0 * totalOffset)
@@ -536,7 +536,7 @@ class ZenPuzzleLogic: GameScene {
 					encAnimStage = .Magic
 					break
 				case .Magic:
-                    if #available(iOS 11.0, *) {
+                    if #available(iOS 11.0, tvOS 11.0, *) {
                         let string = stickyTextLabel?.attributedText?.string
                         var attributes = stickyTextLabel?.attributedText?.attributes(at: 0, effectiveRange: nil)
                         var output: String = String()
@@ -572,7 +572,7 @@ class ZenPuzzleLogic: GameScene {
 					var offset: CGFloat = CGFloat(1 - fadingCharacterAlpha) * totalOffset
 					if (deltaFadeTime >= 1) {
 						offset = 0.0
-                        if #available(iOS 11.0, *) {
+                        if #available(iOS 11.0, tvOS 11.0, *) {
                             stickyTextShadowLabel?.attributedText = NSAttributedString()
                         }
 						stickyTextShadowLabel?.isHidden = true
@@ -583,7 +583,7 @@ class ZenPuzzleLogic: GameScene {
 							encAnimStage = .Hiding
 						}
 					} else {
-                        if #available(iOS 11.0, *) {
+                        if #available(iOS 11.0, tvOS 11.0, *) {
                             var attributes = stickyTextLabel?.attributedText?.attributes(at: 0, effectiveRange: nil)
                             attributes![.strokeWidth] = -1.0
                             stickyTextShadowLabel?.attributedText = NSAttributedString(string: (stickyTextLabel?.attributedText!.string)!, attributes: attributes)
@@ -888,7 +888,7 @@ class ZenPuzzleLogic: GameScene {
 			textLabel?.text = ""
 			if (stickyText) {
 				stickyTextLabel?.text = ""
-                if #available(iOS 11.0, *) {
+                if #available(iOS 11.0, tvOS 11.0, *) {
                     stickyTextLabel?.attributedText = NSAttributedString()
                 }
 				stickyTextLabel?.alpha = 1.0

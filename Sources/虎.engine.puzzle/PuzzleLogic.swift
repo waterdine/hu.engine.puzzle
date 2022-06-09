@@ -78,7 +78,7 @@ class PuzzleLogic: GameScene {
 		stickyText = false
 		fixedText = ""
 		newText = ""
-        if #available(iOS 11.0, *) {
+        if #available(iOS 11.0, tvOS 11.0, *) {
             stickyTextLabel?.attributedText =  NSAttributedString()
         } else {
             // Fallback on earlier versions
@@ -221,7 +221,7 @@ class PuzzleLogic: GameScene {
 					}
 				}
 				
-                if #available(iOS 11.0, *) {
+                if #available(iOS 11.0, tvOS 11.0, *) {
                     textLabel?.attributedText = string
                 } else {
                     // Fallback on earlier versions
@@ -271,7 +271,7 @@ class PuzzleLogic: GameScene {
 						nextEncAnim = nextEncAnim + 1.5
 						encAnimStage = .FadingOut
 					}
-                    if #available(iOS 11.0, *) {
+                    if #available(iOS 11.0, tvOS 11.0, *) {
                         var attributes = stickyTextLabel?.attributedText?.attributes(at: 0, effectiveRange: nil)
                         attributes![.strokeWidth] = -1.0
                         stickyTextShadowLabel?.attributedText = NSAttributedString(string: (stickyTextLabel?.attributedText!.string)!, attributes: attributes)
@@ -290,7 +290,7 @@ class PuzzleLogic: GameScene {
 					encAnimStage = .Magic
 					break
 				case .Magic:
-                    if #available(iOS 11.0, *) {
+                    if #available(iOS 11.0, tvOS 11.0, *) {
                         let string = stickyTextLabel?.attributedText?.string
                         var attributes = stickyTextLabel?.attributedText?.attributes(at: 0, effectiveRange: nil)
                         var output: String = String()
@@ -327,7 +327,7 @@ class PuzzleLogic: GameScene {
 					var offset: CGFloat = CGFloat(1 - fadingCharacterAlpha) * totalOffset
 					if (deltaFadeTime >= 1) {
 						offset = 0.0
-                        if #available(iOS 11.0, *) {
+                        if #available(iOS 11.0, tvOS 11.0, *) {
                             stickyTextShadowLabel?.attributedText = NSAttributedString()
                         } else {
                             // Fallback on earlier versions
@@ -340,7 +340,7 @@ class PuzzleLogic: GameScene {
 							encAnimStage = .Hiding
 						}
 					} else {
-                        if #available(iOS 11.0, *) {
+                        if #available(iOS 11.0, tvOS 11.0, *) {
                             var attributes = stickyTextLabel?.attributedText?.attributes(at: 0, effectiveRange: nil)
                             attributes![.strokeWidth] = -1.0
                             stickyTextShadowLabel?.attributedText = NSAttributedString(string: (stickyTextLabel?.attributedText!.string)!, attributes: attributes)
@@ -562,7 +562,7 @@ class PuzzleLogic: GameScene {
 			textLabel?.text = ""
 			if (stickyText) {
 				stickyTextLabel?.text = ""
-                if #available(iOS 11.0, *) {
+                if #available(iOS 11.0, tvOS 11.0, *) {
                     stickyTextLabel?.attributedText = NSAttributedString()
                 } else {
                     // Fallback on earlier versions
